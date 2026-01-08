@@ -1,0 +1,245 @@
+:root {
+  --title-font: "Manrope", sans-serif;
+  --text-font: "Manrope", sans-serif;
+}
+
+/* start font */
+
+h1,
+.title_one {
+  font-family: var(--title-font);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 110%;
+  letter-spacing: -1px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+h2,
+.title_two {
+  font-family: var(--title-font);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 110%;
+  letter-spacing: -1px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+h3,
+.title_three {
+  font-family: var(--title-font);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 110%;
+  letter-spacing: -1px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+h4,
+.title_four {
+  font-family: var(--title-font);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: -1px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+h5,
+.title_five {
+  font-family: var(--title-font);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 130%;
+  letter-spacing: -1px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+p,
+.text_one,
+.breadcrumbs__item:not(:last-child):after,
+input {
+  font-family: var(--text-font);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0px;
+  color: var(--text);
+}
+
+button,
+.button {
+  font-family: var(--text-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0px;
+  color: var(--text);
+}
+
+.text_small,
+small {
+  font-family: var(--text-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 135%;
+  letter-spacing: 0px;
+}
+
+.text_very {
+  font-family: var(--text-font);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0px;
+}
+
+.button {
+  font-family: var(--text-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+small {
+	color: var(--error);
+}
+
+/* end font */
+
+@media (max-width: 1919px) {
+  h1,
+  .title_one {
+    font-size: 48px;
+  }
+  h2,
+  .title_two {
+    font-size: 32px;
+  }
+  h3,
+  .title_three {
+    font-size: 26px;
+  }
+  h4,
+  .title_four {
+    font-size: 20px;
+  }
+  h5,
+  .title_five {
+    font-size: 18px;
+  }
+  p,
+  .text_one,
+  .breadcrumbs__item:not(:last-child):after,
+  input {
+    font-size: 16px;
+  }
+  button,
+  .button {
+    font-size: 13px;
+  }
+  .text_small,
+  small {
+    font-size: 14px;
+  }
+  .text_very {
+    font-size: 12px;
+  }
+  .button {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 1023px) {
+  h1,
+  .title_one {
+    font-size: 48px;
+  }
+  h2,
+  .title_two {
+    font-size: 32px;
+  }
+  h3,
+  .title_three {
+    font-size: 26px;
+  }
+  h4,
+  .title_four {
+    font-size: 20px;
+  }
+  h5,
+  .title_five {
+    font-size: 18px;
+  }
+  p,
+  .text_one,
+  .breadcrumbs__item:not(:last-child):after,
+  input {
+    font-size: 16px;
+  }
+  button,
+  .button {
+    font-size: 12px;
+  }
+  .text_small,
+  small {
+    font-size: 14px;
+  }
+  .text_very {
+    font-size: 12px;
+  }
+  .button {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  h1,
+  .title_one {
+    font-size: 40px;
+  }
+  h2,
+  .title_two {
+    font-size: 32px;
+  }
+  h3,
+  .title_three {
+    font-size: 24px;
+  }
+  h4,
+  .title_four {
+    font-size: 18px;
+  }
+  h5,
+  .title_five {
+    font-size: 16px;
+  }
+  p,
+  .text_one,
+  .breadcrumbs__item:not(:last-child):after,
+  input {
+    font-size: 16px;
+  }
+  button,
+  .button {
+    font-size: 12px;
+  }
+  .text_small,
+  small {
+    font-size: 14px;
+  }
+  .text_very {
+    font-size: 12px;
+  }
+  .button {
+    font-size: 12px;
+  }
+}
