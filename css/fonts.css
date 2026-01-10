@@ -2,9 +2,6 @@
   --title-font: "Manrope", sans-serif;
   --text-font: "Manrope", sans-serif;
 }
-
-/* start font */
-
 h1,
 .title_one {
   font-family: var(--title-font);
@@ -15,7 +12,6 @@ h1,
   letter-spacing: -4%;
   color: var(--text);
 }
-
 h2,
 .title_two {
   font-family: var(--title-font);
@@ -26,7 +22,6 @@ h2,
   letter-spacing: -4%;
   color: var(--text);
 }
-
 h3,
 .title_three {
   font-family: var(--title-font);
@@ -37,7 +32,6 @@ h3,
   letter-spacing: -4%;
   color: var(--text);
 }
-
 h4,
 .title_four {
   font-family: var(--title-font);
@@ -48,7 +42,6 @@ h4,
   letter-spacing: -4%;
   color: var(--text);
 }
-
 h5,
 .title_five {
   font-family: var(--title-font);
@@ -59,7 +52,6 @@ h5,
   letter-spacing: -4%;
   color: var(--text);
 }
-
 h6,
 .title_six {
   font-family: var(--title-font);
@@ -70,7 +62,14 @@ h6,
   letter-spacing: -4%;
   color: var(--text);
 }
-
+h1 span,
+h2 span,
+h3 span,
+h4 span,
+h5 span,
+h6 span {
+  color: var(--color);
+}
 p,
 .text_one,
 .breadcrumbs__item:not(:last-child):after,
@@ -83,7 +82,6 @@ input {
   letter-spacing: 0%;
   color: var(--text);
 }
-
 .text_two {
   font-family: var(--text-font);
   font-weight: 400;
@@ -93,7 +91,6 @@ input {
   letter-spacing: 0%;
   color: var(--text);
 }
-
 button,
 .button {
   font-family: var(--text-font);
@@ -104,7 +101,6 @@ button,
   letter-spacing: 0%;
   color: var(--text);
 }
-
 .text_menu {
   font-family: var(--text-font);
   font-weight: 600;
@@ -114,7 +110,6 @@ button,
   letter-spacing: 0%;
   color: var(--text);
 }
-
 .text_small,
 small {
   font-family: var(--text-font);
@@ -125,12 +120,9 @@ small {
   letter-spacing: 0px;
   color: var(--text);
 }
-
 small {
 	color: var(--error);
 }
-
-/* end font */
 
 @media (max-width: 1919px) {
   h1,
