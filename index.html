@@ -19,8 +19,8 @@
   <link href="img/favicon.ico" rel="shortcut icon">
   <link href="img/site.webmanifest" rel="manifest">
   <link rel="stylesheet" href="css/swiper.min.css">
-  <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,19 +39,19 @@
           <nav class="header__nav">
             <ul class="header__nav_list">
               <li class="header__nav_item">
-                <a href="#" class="header__nav_link">Услуги</a>
+                <a href="#" class="header__nav_link text_menu">Услуги</a>
               </li>
               <li class="header__nav_item">
-                <a href="#" class="header__nav_link">Проекты</a>
+                <a href="#" class="header__nav_link text_menu">Проекты</a>
               </li>
               <li class="header__nav_item">
-                <a href="#" class="header__nav_link">О компании</a>
+                <a href="#" class="header__nav_link text_menu">О компании</a>
               </li>
               <li class="header__nav_item">
-                <a href="#" class="header__nav_link">Технологии</a>
+                <a href="#" class="header__nav_link text_menu">Технологии</a>
               </li>
               <li class="header__nav_item">
-                <a href="#" class="header__nav_link">Сертификаты</a>
+                <a href="#" class="header__nav_link text_menu">Сертификаты</a>
               </li>
             </ul>
           </nav>
@@ -70,23 +70,22 @@
                 </svg>
               </a>
             </div>
-            <a href="tel://+7999454322" class="header__phone">
+            <a href="tel://+7999454322" class="header__phone button">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M13.797 10.7551L13.4174 11.1325C13.4174 11.1325 12.5153 12.0295 10.0528 9.58102C7.59026 7.1325 8.49242 6.23547 8.49242 6.23547L8.73143 5.99781C9.32022 5.41236 9.37573 4.47242 8.86203 3.78623L7.81121 2.38256C7.1754 1.53325 5.94679 1.42106 5.21804 2.14568L3.91004 3.44625C3.54869 3.80555 3.30654 4.27132 3.3359 4.788C3.41103 6.10984 4.00909 8.95387 7.3463 12.2721C10.8853 15.791 14.2059 15.9309 15.5637 15.8043C15.9932 15.7642 16.3668 15.5455 16.6678 15.2462L17.8516 14.0691C18.6506 13.2746 18.4253 11.9124 17.4029 11.3566L15.8108 10.4912C15.1395 10.1262 14.3216 10.2334 13.797 10.7551Z" fill="currentColor"/>
               </svg>
               <span>+7 (999) 454-43-22</span>
             </a>
-            <div class="header__call">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <rect width="16" height="16" fill="currentColor"/>
-                <path d="M8 5.5V10.5M10.5 8H5.5" stroke="white" stroke-width="0.5625" stroke-linecap="round" stroke-linejoin="round"/>
+            <button class="header__call button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 6V18M18 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               Заказать звонок
-            </div>
-            <button class="burger" id="burger">
-              <span class="burger__line"></span>
-              <span class="burger__line"></span>
-              <span class="burger__line"></span>
+            </button>
+            <button class="header__burger" id="burger">
+              <span class="header__burger_line"></span>
+              <span class="header__burger_line"></span>
+              <span class="header__burger_line"></span>
             </button>
           </div>
         </div>
@@ -95,7 +94,123 @@
   </header>
   <main class="main">
     <section class="top" id="top"></section>
-    
+    <section class="hero">
+      <div class="hero__block">
+        <div class="container hero__container">
+          <div class="hero__flex">
+            <h1 class="hero__head">Инъекционные технологии <span>для сохранения зданий и оснований</span></h1>
+            <p class="hero__desc text_two">
+              Укрепляем фундаменты, грунты и кирпичные стены на 
+              объектах культурного наследия. Работаем аккуратно, 
+              по проекту, без вмешательства в исторические элементы.
+            </p>
+            <button class="hero__button button__primary button">
+              <span>Оставить заявку</span>
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 6V18M18 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div class="hero__image">
+          <img src="./img/hero/img.webp" alt="">
+        </div>
+      </div>
+    </section>
+    <section class="work">
+      <div class="container work__container">
+        <div class="work__block">
+          <div class="work__top">
+            <h2 class="work__head">
+              Мы выполняем инженерные работы, 
+              <span>от которых зависит безопасность и сохранность здания</span>
+            </h2>
+            <div class="work__divider"></div>
+            <p class="work__name button">Чем мы занимаемся</p>
+          </div>
+          <div class="work__bottom">
+            <div class="work__flex">
+              <div class="work__left">
+                <div class="work__info">
+                  <h4 class="work__heading">В наши работы входит:</h4>
+                  <ul class="work__list">
+                    <li class="work__item">
+                      <p class="work__desc text_two">цементация фундаментов и грунтов</p>
+                    </li>
+                    <li class="work__item">
+                      <p class="work__desc text_two">восстановление сплошности кладки</p>
+                    </li>
+                    <li class="work__item">
+                      <p class="work__desc text_two">гидроизоляция кирпичных стен</p>
+                    </li>
+                    <li class="work__item">
+                      <p class="work__desc text_two">противокапиллярная защита</p>
+                    </li>
+                  </ul>
+                </div>
+                <div class="work__info">
+                  <h4 class="work__heading">Все работы выполняем методом инъектирования</h4>
+                  <p class="work__description text_two">
+                    Аккуратно, без демонтажа и вмешательства в архитектурный облик. Технологии и материалы подбираем индивидуально под каждый объект.
+                  </p>
+                </div>
+                <div class="work__info">
+                  <h4 class="work__heading">Работаем только на субподряде</h4>
+                  <p class="work__description text_two">
+                    Не выполняем отделочные и декоративные реставрационные работы (лепнина, роспись, фрески, золочение). Мы отвечаем именно за конструктивную часть.
+                  </p>
+                </div>
+                <div class="work__image">
+                  <img src="./img/hero/img.webp" alt="">
+                </div>
+              </div>
+              <div class="work__right">
+                <div class="work__info">
+                  <h4 class="work__heading">[Собственное оборудование]</h4>
+                  <p class="work__description text_two">
+                    Инъекционные насосы, установки высокой производительности и оборудование для бурения каналов – всё своё, без аренды и задержек.
+                  </p>
+                </div>
+                <div class="work__info">
+                  <h4 class="work__heading">[Материалы, допущенные к реставрационным работам]</h4>
+                  <p class="work__description text_two">
+                    Используем сертифицированные составы и гели, рекомендованные для объектов культурного наследия.
+                  </p>
+                </div>
+                <div class="work__info">
+                  <h4 class="work__heading">[Инженеры с опытом 10+ лет]</h4>
+                  <p class="work__description text_two">
+                    Команда, которая знает специфику старых зданий: несущая способность кладки, капиллярный подсос, работу грунтов под фундаментами.
+                  </p>
+                </div>
+                <div class="work__info">
+                  <h4 class="work__heading">[Комплекс работ одним подрядчиком]</h4>
+                  <p class="work__description text_two">
+                    Цементация фундаментов и грунтов, гидроизоляция, восстановление сплошности кирпича – закрываем весь цикл инъекционных работ на объекте.
+                  </p>
+                </div>
+                <div class="work__info">
+                  <h4 class="work__heading">[Фиксированная цена]</h4>
+                  <p class="work__description text_two">
+                    Все расчёты прозрачны — без скрытых объемов и доплат в процессе.
+                  </p>
+                </div>
+                <button class="work__button button__second button">
+                  <span>Подробнее о нас</span>
+                  <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 6V18M18 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <footer class="footer">
       <div class="container footer__container">
         <div class="footer__block">

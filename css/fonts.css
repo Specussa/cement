@@ -8,56 +8,67 @@
 h1,
 .title_one {
   font-family: var(--title-font);
-  font-size: 64px;
-  font-weight: 700;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 50px;
   line-height: 110%;
-  letter-spacing: -1px;
+  letter-spacing: -4%;
   color: var(--text);
-  text-transform: uppercase;
 }
 
 h2,
 .title_two {
   font-family: var(--title-font);
-  font-size: 48px;
-  font-weight: 700;
-  line-height: 110%;
-  letter-spacing: -1px;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 40px;
+  line-height: 120%;
+  letter-spacing: -4%;
   color: var(--text);
-  text-transform: uppercase;
 }
 
 h3,
 .title_three {
   font-family: var(--title-font);
+  font-weight: 600;
+  font-style: SemiBold;
   font-size: 32px;
-  font-weight: 700;
-  line-height: 110%;
-  letter-spacing: -1px;
+  line-height: 120%;
+  letter-spacing: -4%;
   color: var(--text);
-  text-transform: uppercase;
 }
 
 h4,
 .title_four {
   font-family: var(--title-font);
+  font-weight: 600;
+  font-style: SemiBold;
   font-size: 24px;
-  font-weight: 700;
-  line-height: 120%;
-  letter-spacing: -1px;
+  line-height: 130%;
+  letter-spacing: -4%;
   color: var(--text);
-  text-transform: uppercase;
 }
 
 h5,
 .title_five {
   font-family: var(--title-font);
+  font-weight: 600;
+  font-style: SemiBold;
   font-size: 20px;
-  font-weight: 700;
   line-height: 130%;
-  letter-spacing: -1px;
+  letter-spacing: -4%;
   color: var(--text);
-  text-transform: uppercase;
+}
+
+h6,
+.title_six {
+  font-family: var(--title-font);
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 16px;
+  line-height: 130%;
+  letter-spacing: -4%;
+  color: var(--text);
 }
 
 p,
@@ -65,48 +76,54 @@ p,
 .breadcrumbs__item:not(:last-child):after,
 input {
   font-family: var(--text-font);
-  font-size: 16px;
   font-weight: 400;
+  font-style: Regular;
+  font-size: 20px;
   line-height: 140%;
-  letter-spacing: 0px;
+  letter-spacing: 0%;
+  color: var(--text);
+}
+
+.text_two {
+  font-family: var(--text-font);
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0%;
   color: var(--text);
 }
 
 button,
 .button {
   font-family: var(--text-font);
+  font-weight: 600;
+  font-style: SemiBold;
   font-size: 14px;
-  font-weight: 400;
   line-height: 140%;
-  letter-spacing: 0px;
+  letter-spacing: 0%;
+  color: var(--text);
+}
+
+.text_menu {
+  font-family: var(--text-font);
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 14px;
+  line-height: 140%;
+  letter-spacing: 0%;
   color: var(--text);
 }
 
 .text_small,
 small {
   font-family: var(--text-font);
+  font-weight: 400;
+  font-style: Regular;
   font-size: 14px;
-  font-weight: 400;
-  line-height: 135%;
-  letter-spacing: 0px;
-}
-
-.text_very {
-  font-family: var(--text-font);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 140%;
-  letter-spacing: 0px;
-}
-
-.button {
-  font-family: var(--text-font);
-  font-size: 14px;
-  font-weight: 400;
   line-height: 140%;
   letter-spacing: 0px;
   color: var(--text);
-  text-transform: uppercase;
 }
 
 small {
@@ -116,92 +133,6 @@ small {
 /* end font */
 
 @media (max-width: 1919px) {
-  h1,
-  .title_one {
-    font-size: 48px;
-  }
-  h2,
-  .title_two {
-    font-size: 32px;
-  }
-  h3,
-  .title_three {
-    font-size: 26px;
-  }
-  h4,
-  .title_four {
-    font-size: 20px;
-  }
-  h5,
-  .title_five {
-    font-size: 18px;
-  }
-  p,
-  .text_one,
-  .breadcrumbs__item:not(:last-child):after,
-  input {
-    font-size: 16px;
-  }
-  button,
-  .button {
-    font-size: 13px;
-  }
-  .text_small,
-  small {
-    font-size: 14px;
-  }
-  .text_very {
-    font-size: 12px;
-  }
-  .button {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 1023px) {
-  h1,
-  .title_one {
-    font-size: 48px;
-  }
-  h2,
-  .title_two {
-    font-size: 32px;
-  }
-  h3,
-  .title_three {
-    font-size: 26px;
-  }
-  h4,
-  .title_four {
-    font-size: 20px;
-  }
-  h5,
-  .title_five {
-    font-size: 18px;
-  }
-  p,
-  .text_one,
-  .breadcrumbs__item:not(:last-child):after,
-  input {
-    font-size: 16px;
-  }
-  button,
-  .button {
-    font-size: 12px;
-  }
-  .text_small,
-  small {
-    font-size: 14px;
-  }
-  .text_very {
-    font-size: 12px;
-  }
-  .button {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 767px) {
   h1,
   .title_one {
     font-size: 40px;
@@ -216,11 +147,15 @@ small {
   }
   h4,
   .title_four {
-    font-size: 18px;
+    font-size: 20px;
   }
   h5,
   .title_five {
-    font-size: 16px;
+    font-size: 18px;
+  }
+  h6,
+  .title_six {
+    font-size: 14px;
   }
   p,
   .text_one,
@@ -228,18 +163,110 @@ small {
   input {
     font-size: 16px;
   }
+  .text_two {
+    font-size: 14px;
+  }
   button,
   .button {
-    font-size: 12px;
+    font-size: 14px;
+  }
+  .text_menu {
+    font-size: 14px;
   }
   .text_small,
   small {
+    font-size: 12px;
+  }
+}
+@media (max-width: 1023px) {
+  h1,
+  .title_one {
+    font-size: 40px;
+  }
+  h2,
+  .title_two {
+    font-size: 32px;
+  }
+  h3,
+  .title_three {
+    font-size: 24px;
+  }
+  h4,
+  .title_four {
+    font-size: 20px;
+  }
+  h5,
+  .title_five {
+    font-size: 18px;
+  }
+  h6,
+  .title_six {
     font-size: 14px;
   }
-  .text_very {
+  p,
+  .text_one,
+  .breadcrumbs__item:not(:last-child):after,
+  input {
+    font-size: 16px;
+  }
+  .text_two {
+    font-size: 14px;
+  }
+  button,
+  .button {
+    font-size: 14px;
+  }
+  .text_menu {
+    font-size: 32px;
+  }
+  .text_small,
+  small {
     font-size: 12px;
   }
-  .button {
+}
+@media (max-width: 767px) {
+  h1,
+  .title_one {
+    font-size: 24px;
+  }
+  h2,
+  .title_two {
+    font-size: 20px;
+  }
+  h3,
+  .title_three {
+    font-size: 18px;
+  }
+  h4,
+  .title_four {
+    font-size: 16px;
+  }
+  h5,
+  .title_five {
+    font-size: 15px;
+  }
+  h6,
+  .title_six {
+    font-size: 14px;
+  }
+  p,
+  .text_one,
+  .breadcrumbs__item:not(:last-child):after,
+  input {
+    font-size: 14px;
+  }
+  .text_two {
     font-size: 12px;
+  }
+  button,
+  .button {
+    font-size: 14px;
+  }
+  .text_menu {
+    font-size: 32px;
+  }
+  .text_small,
+  small {
+    font-size: 11px;
   }
 }
