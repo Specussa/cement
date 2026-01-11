@@ -54,109 +54,40 @@ if(!year){} else {
 // end year
 
 // start navbar
-const burger = document.getElementById('burger');
+const overlay = document.querySelector('.overlay');
+const burger = document.querySelector('.header__burger');
+const docsPopup = document.querySelector('.docs__popup');
 
-burger.addEventListener('click', function() {
-  this.classList.toggle('active');
-});
-
-// start menu sublist
-const subnav = document.querySelectorAll('.header__subnav_list');
-[...subnav].forEach(function (li) {
-  for (let [index, elem] of [...li.children].entries()){
-    elem.style.setProperty('--inc-step', index+1);
-  }
-});
-
-const nav = document.querySelectorAll('.header__nav_list');
-[...nav].forEach(function (li) {
-  for (let [index, elem] of [...li.children].entries()){
-    elem.children[0].style.setProperty('--inc-step', index+1);
-  }
-});
-
-  var hovermenu = document.querySelector('.header__nav_list');
-  var elemHovermenu = false;
-  hovermenu.addEventListener('mouseover', function(e) {
-    if (document.documentElement.clientWidth > 1439) {
-      var target = e.target.closest('.header__nav_item');
-      if (elemHovermenu || !target) {return};
-      elemHovermenu = target;
-      var parent = target.closest('.header__nav_list');
-      var old = parent.querySelector('.header__nav_item.active');
-      if (old) {old.classList.remove('active')};
-      target.classList.add('active');
-    };
-  })
-  hovermenu.addEventListener('mouseout', function(e) {
-    if (document.documentElement.clientWidth > 1439) {
-      if(!elemHovermenu) return;
-      elemHovermenu = null;
-    };
-  })
-
-var hnl = document.getElementsByClassName("header__nav_link");
-var i;
-for (i = 0; i < hnl.length; i++) {
-  hnl[i].onclick = function(e) {
-    if (document.documentElement.clientWidth <= 1439) {
-      if (!this.parentElement.classList.contains("active")) {
-        var hsl = this.nextElementSibling;
-        if (hsl) {
-          e.preventDefault();
-          var courseHsl = document.getElementsByClassName("header__subnav_list");
-          var courseHniActive = document.getElementsByClassName("header__nav_item active");
-  
-          if (hsl.style.maxHeight) {
-            hsl.style.maxHeight = null;
-            this.parentElement.classList.remove("active");
-            hsl.classList.remove("active");
-          } else {
-            for (var q = 0; q < courseHniActive.length; q++) {
-              courseHniActive[q].classList.remove("active");
-              courseHsl[q].classList.remove("active");
-            }
-            for (var p = 0; p < courseHsl.length; p++) {
-              this.parentElement.classList.remove("active");
-              courseHsl[p].classList.remove("active");
-              courseHsl[p].style.maxHeight = null;
-            }
-            hsl.style.maxHeight = hsl.scrollHeight + "px";
-            hsl.classList.add("active");
-            this.parentElement.classList.add("active");
-          }
-        }
-      }
-    };
-  };
-}
-// end menu sublist
-
-// start text rotate
-let textblock = document.querySelectorAll('.text');
-if (document.documentElement.clientWidth >= 1023) {
-  textblock.forEach(element => {
-    let innerText = element.innerText;
-    element.innerHTML = '';
-    
-    let textContainer = document.createElement('span');
-    textContainer.classList.add('text__rotate');
-    
-    for (let letter of innerText) {
-      let span = document.createElement('span');
-      // span.innerText = letter.trim() === '' ? span.classList.add('text__space') : letter;
-      // span.innerText = letter.trim() === '' ? '\x20': letter;
-      span.innerText = letter.trim() === '' ? '\xa0': letter;
-      textContainer.appendChild(span);
+if (burger) {
+  burger.addEventListener('click', function() {
+    if (burger.classList.contains('active')) {
+      burger.classList.remove('active');
+      overlay.classList.remove('active');
+      document.documentElement.classList.remove("noscroll");
+      if(docsPopup){docsPopup.classList.remove('active')};
+    } else {
+      burger.classList.add('active');
+      overlay.classList.add('active');
+      document.documentElement.classList.add("noscroll");
     }
-    
-    element.appendChild(textContainer);
-    element.appendChild(textContainer.cloneNode(true));
   });
-  const textrotate = document.querySelectorAll('.text__rotate');
-  [...textrotate].forEach(function (li) {for (let [index, elem] of [...li.children].entries()){elem.style.setProperty('--inc-step', index+1);}});
 }
-// end text rotate
+
+if (overlay) {
+  overlay.addEventListener('click', function() {
+    if (overlay.classList.contains('active')) {
+      burger.classList.remove('active');
+      overlay.classList.remove('active');
+      document.documentElement.classList.remove("noscroll");
+      if(docsPopup){docsPopup.classList.remove('active')};
+    } else {
+      burger.classList.add('active');
+      overlay.classList.add('active');
+      document.documentElement.classList.add("noscroll");
+    }
+  });
+}
+// end navbar
 
 // start select
 const SELECT = '[data-select]'
@@ -255,47 +186,144 @@ class Select {
 Select.attach()
 // end select
 
-// start articles
-const articlesSlider = document.querySelector('.articles__swiper');
-if(articlesSlider){
-  var aboutusSlider = new Swiper('.articles__swiper', {
+// start build
+// Получаем все кнопки с классом build__button
+const buttons = document.querySelectorAll('.build__button');
+const swiperBlocks = document.querySelectorAll('.build__swiper');
+const swiperButtons = document.querySelectorAll('.swiper__buttons');
+
+// Функция для активации выбранного блока
+function activateBlock(blockNumber) {
+  // Удаляем класс active у всех кнопок
+  buttons.forEach(button => {
+    button.classList.remove('active');
+  });
+  
+  // Удаляем класс active у всех слайдеров
+  swiperBlocks.forEach(block => {
+    block.classList.remove('active');
+  });
+  
+  // Удаляем класс active у всех навигационных кнопок слайдера
+  swiperButtons.forEach(buttonGroup => {
+    buttonGroup.classList.remove('active');
+  });
+  
+  // Добавляем класс active выбранной кнопке
+  const selectedButton = document.querySelector(`.build__button_${blockNumber}`);
+  if (selectedButton) {
+    selectedButton.classList.add('active');
+  }
+  
+  // Добавляем класс active выбранному слайдеру
+  const selectedSwiper = document.querySelector(`.build__swiper_${blockNumber}`);
+  if (selectedSwiper) {
+    selectedSwiper.classList.add('active');
+  }
+  
+  // Добавляем класс active выбранной группе навигационных кнопок
+  const selectedSwiperButtons = document.querySelector(`.swiper__buttons_${blockNumber}`);
+  if (selectedSwiperButtons) {
+    selectedSwiperButtons.classList.add('active');
+  }
+}
+
+// Обработчики кликов для кнопок
+buttons.forEach(button => {
+    button.addEventListener('click', function() {
+        // Определяем номер блока по классу кнопки
+        if (this.classList.contains('build__button_one')) {
+            activateBlock('one');
+        } else if (this.classList.contains('build__button_two')) {
+            activateBlock('two');
+        } else if (this.classList.contains('build__button_three')) {
+            activateBlock('three');
+        }
+    });
+});
+
+const buildSliderOne = document.querySelector('.build__swiper_one');
+if(buildSliderOne){
+  var buildSlider = new Swiper('.build__swiper_one', {
     loop: false,
-    freeMode: true,
-    watchSlidesProgress: true,
     slidesPerView: 'auto',
-    loopedSlides: 4,
+    loopedSlides: 1,
     spaceBetween: 10,
-    speed: 1000,
     navigation: {
-      nextEl: '.articles__next',
-      prevEl: '.articles__prev',
-    },
-    breakpoints: {
-      1919: {
-        spaceBetween: 30,
-      },
-      1023: {
-        slidesPerView: 'auto',
-        spaceBetween: 20,
-      },
+      nextEl: '.build__next_one',
+      prevEl: '.build__prev_one',
     },
     breakpoints: {
       1920: {
-        slidesPerView: 4,
-        spaceBetween: 40,
+        slidesPerView: 2,
+        spaceBetween: 20,
       },
       1440: {
-        slidesPerView: 4,
-        spaceBetween: 30,
+        slidesPerView: 2,
+        spaceBetween: 20,
       },
       1024: {
-        slidesPerView: 'auto',
+        slidesPerView: 1.2,
         spaceBetween: 20,
       },
     },
   });
 }
-// end articles
+const buildSliderTwo = document.querySelector('.build__swiper_two');
+if(buildSliderTwo){
+  var buildSlider = new Swiper('.build__swiper_two', {
+    loop: false,
+    slidesPerView: 'auto',
+    loopedSlides: 1,
+    spaceBetween: 10,
+    navigation: {
+      nextEl: '.build__next_two',
+      prevEl: '.build__prev_two',
+    },
+    breakpoints: {
+      1920: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
+      1440: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
+      1024: {
+        slidesPerView: 1.2,
+        spaceBetween: 20,
+      },
+    },
+  });
+}
+const buildSliderThree = document.querySelector('.build__swiper_three');
+if(buildSliderThree){
+  var buildSlider = new Swiper('.build__swiper_three', {
+    loop: false,
+    slidesPerView: 'auto',
+    loopedSlides: 1,
+    spaceBetween: 10,
+    navigation: {
+      nextEl: '.build__next_three',
+      prevEl: '.build__prev_three',
+    },
+    breakpoints: {
+      1920: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
+      1440: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
+      1024: {
+        slidesPerView: 1.2,
+        spaceBetween: 20,
+      },
+    },
+  });
+}
+// end build
 
 // start project desktop
 const projectdesktopSlider = document.querySelector('.project_desktop__swiper');
@@ -316,1026 +344,57 @@ if(projectdesktopSlider){
 }
 // end project desktop
 
-// start project tab
-const projecttabSlider = document.querySelector('.project_tab__swiper');
-if(projecttabSlider){
-  var ptabSlider = new Swiper('.project_tab__swiper', {
-    loop: true,
-    slideToClickedSlide: false,
-    allowTouchMove: true,
-    watchSlidesProgress: true,
-    slidesPerView: 1,
-    loopedSlides: 1,
-    spaceBetween: 0,
-    pagination: {
-      el: '.project_tab__pagination',
-      clickable: true,
-    },
-  });
-}
-// end project tab
+// start dosc
+const closePopup = document.querySelector('.docs__popup_close');
+const popupImage = document.getElementById('popupImage');
 
-// start project phone slider
-const elsliderphone = document.querySelector('.project_phone');
-if(elsliderphone) {
-  const projectlists = document.querySelectorAll('.project_phone__list');
-  document.addEventListener("DOMContentLoaded", () => {
-    if (document.querySelectorAll(".project_phone_item").length <= 1) {
-      [...document.querySelectorAll('.project_phone__swiper')].map((n, i) => {
-          n.querySelector('.project_phone__list').innerHTML = projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML
-      })
-    } else if (document.querySelectorAll(".project_phone_item").length <= 2) {
-      [...document.querySelectorAll('.project_phone__swiper')].map((n, i) => {
-          n.querySelector('.project_phone__list').innerHTML = projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML
-      })
-    } else if (document.querySelectorAll(".project_phone_item").length <= 4) {
-      [...document.querySelectorAll('.project_phone__swiper')].map((n, i) => {
-          n.querySelector('.project_phone__list').innerHTML = projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML
-      })
-    } else if (document.querySelectorAll(".project_phone_item").length <= 5) {
-      [...document.querySelectorAll('.project_phone__swiper')].map((n, i) => {
-          n.querySelector('.project_phone__list').innerHTML = projectlists[i].innerHTML + projectlists[i].innerHTML + projectlists[i].innerHTML
-      })
-    } else if (document.querySelectorAll(".project_phone_item").length <= 10) {
-      [...document.querySelectorAll('.project_phone__swiper')].map((n, i) => {
-          n.querySelector('.project_phone__list').innerHTML = projectlists[i].innerHTML + projectlists[i].innerHTML
-      })
+// Получаем все элементы docs__item
+const docItems = document.querySelectorAll('.docs__item');
+
+// Функция для открытия попапа
+function openPopup(imageSrc, altText) {
+  popupImage.src = imageSrc;
+  popupImage.alt = altText || 'Увеличенное изображение';
+  docsPopup.classList.add('active');
+  overlay.classList.add('active');
+  document.documentElement.classList.add("noscroll");
+}
+
+// Функция для закрытия попапа
+function closePopupHandler() {
+  docsPopup.classList.remove('active');
+  overlay.classList.remove('active');
+  document.documentElement.classList.remove("noscroll");
+}
+
+// Добавляем обработчики кликов на каждый элемент docs__item
+docItems.forEach(item => {
+  item.addEventListener('click', function(event) {
+    // Ищем изображение внутри текущего элемента
+    const image = this.querySelector('.docs__image img');
+    const altText = this.querySelector('.docs__heading')?.textContent || '';
+    
+    if (image && image.src) {
+      openPopup(image.src, altText);
     }
-    var pphoneSlider = new Swiper(".project_phone__swiper", {
-      loop: true,
-      slidesPerView: 1.5,
-      spaceBetween: 0,
-      initialSlide: 2,
-      centerSlides: true,
-      centeredSlides : true,
-      slideToClickedSlide: true,
-      allowTouchMove: true,
-      effect: 'coverflow',
-      coverflowEffect: {
-        rotate: 10,
-        stretch: 0,
-        depth: 100,
-        modifier: 1,
-        slideShadows : false,
-      },
-      breakpoints: {
-        1025: {
-          slidesPerView: 5,
-        },
-        1024: {
-          slidesPerView: 3,
-        },
-        390: {
-          slidesPerView: 2,
-        },
-      },
-    });
   });
-}
-// end project phone slider
+});
 
-// start project desktop
-const projectsSlider = document.querySelector('.projects__swiper');
-if(projectsSlider){
-  var pSlider = new Swiper('.projects__swiper', {
-    loop: false,
-    slideToClickedSlide: false,
-    allowTouchMove: true,
-    watchSlidesProgress: true,
-    slidesPerView: 1,
-    loopedSlides: 2,
-    spaceBetween: 0,
-    navigation: {
-      nextEl: '.projects__next',
-      prevEl: '.projects__prev',
-    },
-    breakpoints: {
-      1024: {
-        slidesPerView: 2,
-      },
-    },
-  });
-}
-// end project desktop
+// Закрытие по клику на крестик
+closePopup.addEventListener('click', closePopupHandler);
 
-// start newteam slider
-const elslidernewteam = document.querySelector('.newteam__slider');
-if(elslidernewteam) {
-  const sliderSelector = '.newteam__slider',
-  options = {
-    autoplay: false,
-    init: false,
-    slidesPerView: 1,
-    spaceBetween: 0,
-    effect: 'coverflow',
-    coverflowEffect: {
-      rotate: 0,
-      stretch: 0,
-      depth: 100,
-      modifier: 0,
-      slideShadows : false,
-    },
-    autoplay: {
-      delay: 7000,
-      disableOnInteraction: false,
-    },
-    speed: 700,
-    parallax: true,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.newteam__slider_next',
-      prevEl: '.newteam__slider_prev',
-    },
-    on: {
-      imagesReady: function(){
-        this.el.classList.remove('loading');
-      }
-    }
-  };
-  const mySwiper = new Swiper(sliderSelector, options);
-  mySwiper.init();
-}
-// end newteam slider
-
-// start team
-const teamswiperSlider = document.querySelector('.team_slider__swiper');
-if(teamswiperSlider){
-  const teamlists = document.querySelectorAll('.team_slider__list');
-  document.addEventListener("DOMContentLoaded", () => {
-    if (document.querySelectorAll(".team_slider__item").length <= 1) {
-      [...document.querySelectorAll('.team_slider__swiper')].map((n, i) => {
-          n.querySelector('.team_slider__list').innerHTML = teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML
-      })
-    } else if (document.querySelectorAll(".team_slider__item").length <= 2) {
-      [...document.querySelectorAll('.team_slider__swiper')].map((n, i) => {
-          n.querySelector('.team_slider__list').innerHTML = teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML
-      })
-    } else if (document.querySelectorAll(".team_slider__item").length <= 4) {
-      [...document.querySelectorAll('.team_slider__swiper')].map((n, i) => {
-          n.querySelector('.team_slider__list').innerHTML = teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML
-      })
-    } else if (document.querySelectorAll(".team_slider__item").length <= 5) {
-      [...document.querySelectorAll('.team_slider__swiper')].map((n, i) => {
-          n.querySelector('.team_slider__list').innerHTML = teamlists[i].innerHTML + teamlists[i].innerHTML + teamlists[i].innerHTML
-      })
-    } else if (document.querySelectorAll(".team_slider__item").length <= 10) {
-      [...document.querySelectorAll('.team_slider__swiper')].map((n, i) => {
-          n.querySelector('.team_slider__list').innerHTML = teamlists[i].innerHTML + teamlists[i].innerHTML
-      })
-    }
-    var teamSlider = new Swiper(".team_slider__swiper", {
-      loop: true,
-      slidesPerView: 1,
-      loopedSlides: 4,
-      spaceBetween: 0,
-      loopPreventsSliding: true,
-      effect: "coverflow",
-      centeredSlides: true,
-      slideToClickedSlide: false,
-      allowTouchMove: true,
-      coverflowEffect: {
-        rotate: 20,
-        stretch: 0,
-        depth: 100,
-        modifier: 1,
-        slideShadows: false,
-      },
-      breakpoints: {
-        1440: {
-          slidesPerView: 3.5,
-        },
-        1024: {
-          slidesPerView: 3,
-        },
-        390: {
-          slidesPerView: 1.5,
-        },
-      },
-    });
-  });
-}
-// end team
-
-// start team comments
-const teamcommentsSlider = document.querySelector('.team_comments__swiper');
-if(teamcommentsSlider){
-  var tcSlider = new Swiper('.team_comments__swiper', {
-    loop: true,
-    slideToClickedSlide: false,
-    allowTouchMove: true,
-    watchSlidesProgress: true,
-    slidesPerView: 1,
-    loopedSlides: 1,
-    spaceBetween: 80,
-    navigation: {
-      nextEl: '.team_comments__next',
-      prevEl: '.team_comments__prev',
-    },
-  });
-}
-// end team comments
-
-// start project present
-const projectpresentSlider = document.querySelector('.project_present__swiper');
-if(projectpresentSlider){
-  var ppresentSlider = new Swiper('.project_present__swiper', {
-    loop: true,
-    slidesPerView: 1,
-    centeredSlides: true,
-    speed: 2000,
-    autoplay: {
-      delay: 2000,
-      disableOnInteraction: false,
-    },
-    breakpoints: {
-      580: {
-        slidesPerView: 'auto',
-      },
-    },
-  });
-}
-// end project present
-
-// start video
-const preview = document.querySelector('.showreel__button');
-const showreelmodal = document.querySelector('.showreel__modal');
-const showreelmodalClose = document.querySelector('.showreel__modal_close');
-const showreelvideor = document.querySelector('.showreel__video_responsive');
-window.onload = function(){
-  if(showreelvideor){
-    document.querySelector('.showreel__block').innerHTML = '<video poster="./local/templates/anyera.ru2023/img/main/showreel.webp " playsinline autoplay muted loop><source src="./local/templates/anyera.ru2023/img/main/IMG_1308.mov" type="video/mp4"></video>';
-    showreelvideor.innerHTML = '<video id="showreel__video" poster="./local/templates/anyera.ru2023/img/main/showreel.webp " playsinline autoplay loop data-overlay="1" data-title="ANYERA"><source src="./local/templates/anyera.ru2023/img/main/IMG_1308.mov" type="video/mp4"></video>';
-    setTimeout(function() {
-      const showreelvideo = document.getElementById('showreel__video');
-      if(showreelvideo){
-        showreelvideo.pause();
-        showreelvideo.currentTime = 0;
-        preview.onclick = function(e) {
-          e.preventDefault();
-          showreelmodal.classList.add('showreel__modal_visible');
-          document.querySelector('.spec__overlay').classList.add('is-playing');
-          showreelvideo.play();
-          document.body.style.overflow = "hidden";
-          document.body.style.height = "100vh";
-          var t;
-          window.addEventListener('mousemove', () => {
-            if (t) {
-              showreelmodal.classList.remove('hide')
-              clearTimeout(t)
-              t = 0
-            }
-            t = setTimeout(() => showreelmodal.classList.add('hide'), 1500)
-          });
-          const progress = document.querySelector('.progress');
-          const progressLine = document.querySelector('.progress__line');
-          progress.addEventListener('mousemove', (e) => {
-            progressLine.style.left = e.offsetX + 'px';
-          });
-        }
-        showreelmodalClose.onclick = function() {
-          document.querySelector('.spec__overlay').classList.remove('is-playing');
-          showreelmodal.classList.remove('showreel__modal_visible');
-          showreelvideo.pause();
-          showreelvideo.currentTime = 0;
-          document.body.style.overflow = null;
-          document.body.style.height = null;
-        }
-      }
-      (function () {
-        // helpers
-        var regExp = function regExp(name) {
-            return new RegExp('(^| )' + name + '( |$)');
-        };
-        var forEach = function forEach(list, fn, scope) {
-            for (var i = 0; i < list.length; i++) {
-                fn.call(scope, list[i]);
-            }
-        };
-        // class list object with basic methods
-        function ClassList(element) {
-            this.element = element;
-        }
-        ClassList.prototype = {
-            add: function add() {
-                forEach(arguments, function (name) {
-                    if (!this.contains(name)) {
-                        this.element.className += ' ' + name;
-                    }
-                }, this);
-            },
-            remove: function remove() {
-                forEach(arguments, function (name) {
-                    this.element.className = this.element.className.replace(regExp(name), '');
-                }, this);
-            },
-            toggle: function toggle(name) {
-                return this.contains(name) ? (this.remove(name), false) : (this.add(name), true);
-            },
-            contains: function contains(name) {
-                return regExp(name).test(this.element.className);
-            },
-            // bonus..
-            replace: function replace(oldName, newName) {
-                this.remove(oldName), this.add(newName);
-            }
-        };
-        // IE8/9, Safari
-        if (!('classList' in Element.prototype)) {
-            Object.defineProperty(Element.prototype, 'classList', {
-                get: function get() {
-                    return new ClassList(this);
-                }
-            });
-        }
-        // replace() support for others
-        if (window.DOMTokenList && DOMTokenList.prototype.replace == null) {
-            DOMTokenList.prototype.replace = ClassList.prototype.replace;
-        }
-      })();
-      (function () {
-        if (typeof NodeList.prototype.forEach === "function") return false;
-        NodeList.prototype.forEach = Array.prototype.forEach;
-      })();
-      // Unfortunately, due to scattered support, browser sniffing is required
-      function browserSniff() {
-        var nVer = navigator.appVersion,
-            nAgt = navigator.userAgent,
-            browserName = navigator.appName,
-            fullVersion = '' + parseFloat(navigator.appVersion),
-            majorVersion = parseInt(navigator.appVersion, 10),
-            nameOffset,
-            verOffset,
-            ix;
-        // MSIE 11
-        if (navigator.appVersion.indexOf("Windows NT") !== -1 && navigator.appVersion.indexOf("rv:11") !== -1) {
-            browserName = "IE";
-            fullVersion = "11;";
-        }
-        // MSIE
-        else if ((verOffset = nAgt.indexOf("MSIE")) !== -1) {
-                browserName = "IE";
-                fullVersion = nAgt.substring(verOffset + 5);
-            }
-            // Chrome
-            else if ((verOffset = nAgt.indexOf("Chrome")) !== -1) {
-                    browserName = "Chrome";
-                    fullVersion = nAgt.substring(verOffset + 7);
-                }
-                // Safari
-                else if ((verOffset = nAgt.indexOf("Safari")) !== -1) {
-                        browserName = "Safari";
-                        fullVersion = nAgt.substring(verOffset + 7);
-                        if ((verOffset = nAgt.indexOf("Version")) !== -1) {
-                            fullVersion = nAgt.substring(verOffset + 8);
-                        }
-                    }
-                    // Firefox
-                    else if ((verOffset = nAgt.indexOf("Firefox")) !== -1) {
-                            browserName = "Firefox";
-                            fullVersion = nAgt.substring(verOffset + 8);
-                        }
-                        // In most other browsers, "name/version" is at the end of userAgent
-                        else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) < (verOffset = nAgt.lastIndexOf('/'))) {
-                                browserName = nAgt.substring(nameOffset, verOffset);
-                                fullVersion = nAgt.substring(verOffset + 1);
-                                if (browserName.toLowerCase() == browserName.toUpperCase()) {
-                                    browserName = navigator.appName;
-                                }
-                            }
-        // Trim the fullVersion string at semicolon/space if present
-        if ((ix = fullVersion.indexOf(";")) !== -1) {
-            fullVersion = fullVersion.substring(0, ix);
-        }
-        if ((ix = fullVersion.indexOf(" ")) !== -1) {
-            fullVersion = fullVersion.substring(0, ix);
-        }
-        majorVersion = parseInt('' + fullVersion, 10);
-        if (isNaN(majorVersion)) {
-            fullVersion = '' + parseFloat(navigator.appVersion);
-            majorVersion = parseInt(navigator.appVersion, 10);
-        }
-        return [browserName, majorVersion];
-      }
-      
-      var obj = {};
-      obj.browserInfo = browserSniff();
-      obj.browserName = obj.browserInfo[0];
-      obj.browserVersion = obj.browserInfo[1];
-      
-      wrapPlayers();
-      var players = document.querySelectorAll('.spec__player');
-      var iconPlay = '<i class="spec-play"></i>';
-      var iconPause = '<i class="spec-pause"></i>';
-      var iconVolumeMute = '<i class="spec-volume-mute"></i>';
-      var iconVolumeMedium = '<i class="spec-volume-medium"></i>';
-      var iconVolumeLow = '<i class="spec-volume-low"></i>';
-      var iconExpand = '<i class="spec-expand"></i>';
-      var iconCompress = '<i class="spec-compress"></i>';
-      
-      players.forEach(function (player) {
-        var videos = player.querySelector('.showreel__video_responsive video');
-        var skin = attachSkin(videos.dataset.spec);
-        player.classList.add(skin);
-        var overlay = videos.dataset.overlay;
-        addOverlay(player, overlay);
-        var title = showTitle(skin, videos.dataset.title);
-        if (title) {
-            player.insertAdjacentHTML('beforeend', title);
-        }
-        var html = buildControls(skin);
-        player.insertAdjacentHTML('beforeend', html);
-        var color = videos.dataset.color;
-        addColor(player, color);
-        var playerControls = player.querySelector('.' + skin + '__controls');
-        var progress = player.querySelector('.progress');
-        var progressBar = player.querySelector('.progress__filled');
-        var toggle = player.querySelectorAll('.toggle');
-        var volumeButton = player.querySelector('.volume');
-        var fullScreenButton = player.querySelector('.fullscreen');
-        if (obj.browserName === "IE" && (obj.browserVersion === 8 || obj.browserVersion === 9)) {
-            showControls(videos);
-            playerControls.style.display = "none";
-        }
-        videos.addEventListener('click', function () {
-            togglePlay(this, player);
-        });
-        videos.addEventListener('play', function () {
-            updateButton(this, toggle);
-        });
-        videos.addEventListener('pause', function () {
-            updateButton(this, toggle);
-        });
-        videos.addEventListener('timeupdate', function () {
-            handleProgress(this, progressBar);
-        });
-        toggle.forEach(function (button) {
-            return button.addEventListener('click', function () {
-                togglePlay(videos, player);
-            });
-        });
-        volumeButton.addEventListener('click', function () {
-            toggleVolume(videos, volumeButton);
-        });
-        var mousedown = false;
-        progress.addEventListener('click', function (e) {
-            scrub(e, videos, progress);
-        });
-        progress.addEventListener('mousemove', function (e) {
-            return mousedown && scrub(e, videos, progress);
-        });
-        progress.addEventListener('mousedown', function () {
-            return mousedown = true;
-        });
-        progress.addEventListener('mouseup', function () {
-            return mousedown = false;
-        });
-        fullScreenButton.addEventListener('click', function (e) {
-            return toggleFullScreen(player, fullScreenButton);
-        });
-        addListenerMulti(player, 'webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', function (e) {
-            return onFullScreen(e, player);
-        });
-      });
-      function showControls(videon) {
-        videon.setAttribute("controls", "controls");
-      }
-      function togglePlay(videon, player) {
-        var method = videon.paused ? 'play' : 'pause';
-        videon[method]();
-        videon.paused ? player.classList.remove('is-playing') : player.classList.add('is-playing');
-      }
-      function updateButton(videon, toggle) {
-        var icon = videon.paused ? iconPlay : iconPause;
-        toggle.forEach(function (button) {
-            return button.innerHTML = icon;
-        });
-        const progress = document.querySelector('.progress');
-        const progress__time = document.getElementById("progress__time");
-        progress.addEventListener('mousemove', (e) => {
-          var thours = Math.floor((e.offsetX / progress.offsetWidth * videon.duration) / 60 / 60);
-          var tminutes = Math.floor((e.offsetX / progress.offsetWidth * videon.duration) / 60) - (thours * 60);
-          var tseconds = Math.floor((e.offsetX / progress.offsetWidth * videon.duration) % 60);
-          progress__time.innerHTML = [tminutes,tseconds.toString().padStart(2, '0')].join(':');
-        });
-        var dhours = Math.floor(videon.duration / 60 / 60);
-        var dminutes = Math.floor(videon.duration / 60) - (dhours * 60);
-        var dseconds = Math.floor(videon.duration % 60);
-        progress__duration.innerHTML = [dminutes,dseconds.toString().padStart(2, '0')].join(':');
-      }
-      function skip() {
-        videon.currentTime += parseFloat(this.dataset.skip);
-      }
-      function toggleVolume(videon, volumeButton) {
-        var level = videon.volume;
-        var icon = iconVolumeMedium;
-        if (level == 1) {
-            level = 0;
-            icon = iconVolumeMute;
-        } else if (level == 0.5) {
-            level = 1;
-            icon = iconVolumeMedium;
-        } else {
-            level = 0.5;
-            icon = iconVolumeLow;
-        }
-        videon['volume'] = level;
-        volumeButton.innerHTML = icon;
-      }
-      function handleRangeUpdate() {
-        videon[this.name] = this.value;
-      }
-      function handleProgress(videon, progressBar) {
-        var percent = videon.currentTime / videon.duration * 100;
-        progressBar.style.flexBasis = percent + '%';
-        progress__duration = document.getElementById("progress__duration");
-        progress__currenttime = document.getElementById("progress__currenttime");
-        var chours = Math.floor(videon.currentTime / 60 / 60);
-        var cminutes = Math.floor(videon.currentTime / 60) - (chours * 60);
-        var cseconds = Math.floor(videon.currentTime % 60);
-        progress__currenttime.innerHTML = [cminutes,cseconds.toString().padStart(2, '0')].join(':');
-      }
-      function scrub(e, videon, progress) {
-        var scrubTime = e.offsetX / progress.offsetWidth * videon.duration;
-        videon.currentTime = scrubTime;
-      }
-      function wrapPlayers() {
-        var videol = document.querySelectorAll('.showreel__video_responsive video');
-        videol.forEach(function (videon) {
-            var wrapper = document.createElement('div');
-            wrapper.classList.add('spec__player');
-            videon.parentNode.insertBefore(wrapper, videon);
-            wrapper.appendChild(videon);
-        });
-      }
-      Number.prototype.lead0 = function(n) {
-        var nz = "" + this;
-        while (nz.length < n) {
-            nz = "0" + nz;
-        }
-        return nz;
-      };
-      function buildControls(skin) {
-        var html = [];
-        html.push('<button class="' + skin + '__button--big toggle">' + iconPlay + '</button>');
-        html.push('<div class="' + skin + '__border"></div>');
-        html.push('<div class="' + skin + '__controls spec__controls">');
-        html.push('<button class="' + skin + '__button toggle">' + iconPlay + '</button>', '<div class="progress">', '<div class="progress__filled"></div>', '<div class="progress__line"><p id="progress__time"></p></div>', '<p id="progress__duration"></p>', '<p id="progress__currenttime"></p>', '</div>', '<button class="' + skin + '__button volume">' + iconVolumeMedium + '</button>', '<button class="' + skin + '__button fullscreen" title="Full Screen">' + iconExpand + '</button>');
-        html.push('</div>');
-        return html.join('');
-      }
-      function attachSkin(skin) {
-        if (typeof skin != 'undefined' && skin != '') {
-            return skin;
-        } else {
-            return 'spec';
-        }
-      }
-      function showTitle(skin, title) {
-        if (typeof title != 'undefined' && title != '') {
-            return '<div class="' + skin + '__title">' + title + '</div>';
-        } else {
-            return false;
-        }
-      }
-      function addOverlay(player, overlay) {
-        if (overlay == 1) {
-            player.classList.add('spec__overlay');
-        } else if (overlay == 2) {
-            player.classList.add('spec__overlay--2');
-        } else {
-            return;
-        }
-      }
-      function addColor(player, color) {
-        if (typeof color != 'undefined' && color != '') {
-            var buttons = player.querySelectorAll('button');
-            var progress = player.querySelector('.progress__filled');
-            progress.style.background = color;
-            buttons.forEach(function (button) {
-                return button.style.color = color;
-            });
-        }
-      }
-      function toggleFullScreen(player, fullScreenButton) {
-        // let isFullscreen = false;
-        if (!document.fullscreenElement && // alternative standard method
-        !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
-            player.classList.add('spec__fullscreen');
-      
-            if (player.requestFullscreen) {
-                player.requestFullscreen();
-            } else if (player.mozRequestFullScreen) {
-                player.mozRequestFullScreen(); // Firefox
-            } else if (player.webkitRequestFullscreen) {
-                player.webkitRequestFullscreen(); // Chrome and Safari
-            } else if (player.msRequestFullscreen) {
-                player.msRequestFullscreen();
-            }
-            isFullscreen = true;
-      
-            fullScreenButton.innerHTML = iconCompress;
-        } else {
-            player.classList.remove('spec__fullscreen');
-      
-            if (document.cancelFullScreen) {
-                document.cancelFullScreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-            isFullscreen = false;
-            fullScreenButton.innerHTML = iconExpand;
-        }
-      }
-      
-      function onFullScreen(e, player) {
-        var isFullscreenNow = document.webkitFullscreenElement !== null;
-        if (!isFullscreenNow) {
-            player.classList.remove('spec__fullscreen');
-            player.querySelector('.fullscreen').innerHTML = iconExpand;
-        } else {
-            // player.querySelector('.fullscreen').innerHTML = iconExpand;
-        }
-      }
-      
-      function addListenerMulti(element, eventNames, listener) {
-        var events = eventNames.split(' ');
-        for (var i = 0, iLen = events.length; i < iLen; i++) {
-            element.addEventListener(events[i], listener, false);
-        }
-      }
-    }, 1);
+// Закрытие по клику на оверлей (вне изображения)
+docsPopup.addEventListener('click', function(event) {
+  if (event.target === docsPopup) {
+    closePopupHandler();
   }
-}
-// end video
+});
 
-// start accordion projects__filter
-const projectsfilters = document.querySelector('.projects__filter');
-if(projectsfilters) {
-  var projectsfilter = document.getElementsByClassName("projects__filter_button");
-  for (i = 0; i < projectsfilter.length; i++) {
-    projectsfilter[i].onclick = function(e) {
-      var projectsfilterordion = this.nextElementSibling;
-      var courseprojectsfilterordion = document.getElementsByClassName("projects__filter_sublist");
-      var courseprojectsfilterordionActive = document.getElementsByClassName("projects__filter_button active");
-
-      if (projectsfilterordion.style.maxHeight) {
-        projectsfilterordion.style.maxHeight = null;
-        this.classList.remove("active");
-        projectsfilterordion.classList.remove("active");
-      } else {
-        for (var q = 0; q < courseprojectsfilterordionActive.length; q++) {
-          courseprojectsfilterordionActive[q].classList.remove("active");
-          courseprojectsfilterordion[q].classList.remove("active");
-        }
-        for (var p = 0; p < courseprojectsfilterordion.length; p++) {
-          this.classList.remove("active");
-          courseprojectsfilterordion[p].classList.remove("active");
-          courseprojectsfilterordion[p].style.maxHeight = null;
-        }
-        projectsfilterordion.style.maxHeight = (projectsfilterordion.scrollHeight * 2) + "px";
-        projectsfilterordion.classList.add("active");
-        this.classList.add("active");
-      }
-      window.addEventListener('click', e => {
-        const target = e.target
-        if (!target.closest('.projects__filter')) {
-          for (var q = 0; q < courseprojectsfilterordionActive.length; q++) {
-            courseprojectsfilterordionActive[q].classList.remove("active");
-            courseprojectsfilterordion[q].classList.remove("active");
-          }
-          projectsfilterordion.style.maxHeight = null;
-          this.classList.remove("active");
-          projectsfilterordion.classList.remove("active");
-        }
-      })
-    };
-  }
-
-  const pfc = [...document.querySelectorAll('.projects__filter_check')];
-  const pfclear = document.querySelector('.projects__filter_clear');
-  const pfla = document.querySelectorAll('.projects__filter_label');
-
-  const onChecked = () => {
-    if(document.querySelector('.projects__filter_label.active')) {
-      pfclear.classList.add("active");
-    } else {
-      pfclear.classList.remove("active");
-    }
-  }
-
-  pfc.forEach(input => input.addEventListener('input', function(event) {
-    if (event.target.checked) {
-      event.target.closest('.projects__filter_label').classList.add('active');
-    } else {
-      event.target.closest('.projects__filter_label').classList.remove('active');
-    }
-    onChecked()
-  }))
-
-  pfclear.addEventListener('click', function() {
-    for(var i = 0;i < pfc.length; i++) {pfc[i].checked = false;};
-    for(var i = 0;i < pfla.length; i++) {pfla[i].classList.remove('active');};
-    pfclear.classList.remove("active");
-  })
-
-  const projectsfs = document.querySelectorAll('.projects__filter_sublist');
-  [...projectsfs].forEach(function (li) {for (let [index, elem] of [...li.children].entries()){elem.style.setProperty('--inc-step', index+1);}});
-}
-// end accordion projects__filter
-
-// start mask phone
-const phone_input = document.querySelector('[data-phone-pattern]');
-if (phone_input) {
-  document.addEventListener("DOMContentLoaded", function () {
-    var eventCalllback = function (e) {
-      var el = e.target,
-        clearVal = el.dataset.phoneClear,
-        pattern = el.dataset.phonePattern,
-        matrix_def = "+7(___) ___-__-__",
-        matrix = pattern ? pattern : matrix_def,
-        i = 0,
-        def = matrix.replace(/\D/g, ""),
-        val = e.target.value.replace(/\D/g, "");
-      if (clearVal !== 'false' && e.type === 'blur') {
-        if (val.length < matrix.match(/([\_\d])/g).length) {
-          e.target.value = '';
-          return;
-        }
-      }
-      if (def.length >= val.length) val = def;
-      e.target.value = matrix.replace(/./g, function (a) {
-        return /[_\d]/.test(a) && i < val.length ? val.charAt(i++) : i >= val.length ? "" : a
-      });
-    }
-    var phone_inputs = document.querySelectorAll('[data-phone-pattern]');
-    for (let elem of phone_inputs) {
-      for (let ev of ['input', 'blur', 'focus']) {
-        elem.addEventListener(ev, eventCalllback);
-      }
-    }
-  });
-}
-// end mask phone
-
-// start autosize textarea
-autosize(document.querySelectorAll('textarea'));
-// end autosize textarea
-
-// start price-list
-const pricelist = document.querySelector("[price-list]");
-if (pricelist) {
-  const pricelists = document.querySelectorAll("[price-list]");
-  document.addEventListener("DOMContentLoaded", () => {
-    for (i = 0; i < pricelists.length; i++) {
-      pricelists[i].textContent = pricelists[i].parentElement.parentElement.children[0].children[1].textContent - (pricelists[i].parentElement.parentElement.children[0].children[1].textContent / 100 * pricelists[i].previousElementSibling.textContent.replace(/\%/, ""));
-    }
-  });
-  document.querySelectorAll('.price__sublist').forEach(n => {
-    const priceswiper = new Swiper(n.querySelector('.price__swiper'), {
-      slidesPerView: 1,
-      touchRatio: 0.2,
-      slideToClickedSlide: true,
-      breakpoints: {
-        1024: {
-          slidesPerView: 'auto',
-        },
-        768: {
-          slidesPerView: 3,
-        },
-        580: {
-          slidesPerView: 2,
-        },
-        390: {
-          slidesPerView: 1,
-        },
-      },
-    });
-  });
-}
-// end price-list
-
-// start digital__square
-const digitalsquare = document.querySelector('#digital__square');
-if (digitalsquare) {
-  particlesJS("digital__square", {
-    "particles": {
-      "number": {
-        "value": 80,
-        "density": {
-          "enable": true,
-          "value_area": 1000
-        }
-      },
-      "color": {
-        "value": ["#44959F", "#C7E3E7", "#4BA5B1", "#644BB1", "#5A449F", "#CFC7E7"]
-      },
-      "shape": {
-        "type": "star",
-        "stroke": {
-          "width": 0,
-          "color": "rgba(255, 255, 255, 0.3)"
-        }
-      },
-      "opacity": {
-        "value": 1,
-        "random": true,
-        "anim": {
-          "enable": true,
-          "speed": 0.1,
-          "opacity_min": 0,
-          "sync": false
-        }
-      },
-      "size": {
-        "value": 1,
-        "random": true,
-        "anim": {
-          "enable": true,
-          "speed": 2,
-          "size_min": 5,
-          "sync": false
-        }
-      },
-      "line_linked": {
-        "enable": false,
-        "distance": 150,
-        "color": "#ffffff",
-        "opacity": 0.4,
-        "width": 1
-      },
-      "move": {
-        "enable": true,
-        "speed": 1,
-        "direction": "top",
-        "random": true,
-        "straight": false,
-        "out_mode": "out",
-        "bounce": false,
-        "attract": {
-          "enable": false,
-          "rotateX": 3000,
-          "rotateY": 1500
-        }
-      }
-    },
-    "interactivity": {
-      "detect_on": "canvas",
-      "events": {
-        "onhover": {
-          "enable": false,
-          "mode": "bubble"
-        },
-        "onclick": {
-          "enable": false,
-          "mode": "repulse"
-        },
-        "resize": true
-      },
-      "modes": {
-        "grab": {
-          "distance": 400,
-          "line_linked": {
-            "opacity": 1
-          }
-        },
-        "bubble": {
-          "distance": 250,
-          "size": 0,
-          "duration": 2,
-          "opacity": 0,
-          "speed": 3
-        },
-        "repulse": {
-          "distance": 400,
-          "duration": 0.4
-        },
-        "push": {
-          "particles_nb": 4
-        },
-        "remove": {
-          "particles_nb": 2
-        }
-      }
-    },
-    "retina_detect": true
-  });
-}
-// end digital__square
-
-// start digital__square
-const projecttopstar = document.querySelector('#project_top__star');
-if (projecttopstar) {
-  particlesJS("project_top__star", {
-    "particles": {
-      "number": {
-        "value": 80,
-        "density": {
-          "enable": true,
-          "value_area": 1000
-        }
-      },
-      "color": {
-        "value": ["#44959F", "#C7E3E7", "#4BA5B1", "#644BB1", "#5A449F", "#CFC7E7"]
-      },
-      "shape": {
-        "type": "star",
-        "stroke": {
-          "width": 0,
-          "color": "rgba(255, 255, 255, 0.3)"
-        }
-      },
-      "opacity": {
-        "value": 1,
-        "random": true,
-        "anim": {
-          "enable": true,
-          "speed": 0.1,
-          "opacity_min": 0,
-          "sync": false
-        }
-      },
-      "size": {
-        "value": 1,
-        "random": true,
-        "anim": {
-          "enable": true,
-          "speed": 2,
-          "size_min": 5,
-          "sync": false
-        }
-      },
-      "line_linked": {
-        "enable": false,
-        "distance": 150,
-        "color": "#ffffff",
-        "opacity": 0.4,
-        "width": 1
-      },
-      "move": {
-        "enable": true,
-        "speed": 1,
-        "direction": "top",
-        "random": true,
-        "straight": false,
-        "out_mode": "out",
-        "bounce": false,
-        "attract": {
-          "enable": false,
-          "rotateX": 3000,
-          "rotateY": 1500
-        }
-      }
-    },
-    "interactivity": {
-      "detect_on": "canvas",
-      "events": {
-        "onhover": {
-          "enable": false,
-          "mode": "bubble"
-        },
-        "onclick": {
-          "enable": false,
-          "mode": "repulse"
-        },
-        "resize": true
-      },
-      "modes": {
-        "grab": {
-          "distance": 400,
-          "line_linked": {
-            "opacity": 1
-          }
-        },
-        "bubble": {
-          "distance": 250,
-          "size": 0,
-          "duration": 2,
-          "opacity": 0,
-          "speed": 3
-        },
-        "repulse": {
-          "distance": 400,
-          "duration": 0.4
-        },
-        "push": {
-          "particles_nb": 4
-        },
-        "remove": {
-          "particles_nb": 2
-        }
-      }
-    },
-    "retina_detect": true
-  });
-}
-// end project_top__star
+// Предотвращаем закрытие при клике на само изображение
+popupImage.addEventListener('click', function(event) {
+  event.stopPropagation();
+});
+// end dosc
 
 // start index animation
 const headerform = document.querySelector('.header__forms_form_controls');

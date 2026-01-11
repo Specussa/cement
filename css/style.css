@@ -145,11 +145,6 @@ header {
   transition: filter 0.3s linears;
   transition-delay: 0.2s;
 }
-.overlay.active ~ section,
-.overlay.active ~ header {
-  filter: blur(5px);
-  transition-delay: 0s;
-}
 .error {
   color: var(--error);
 }
@@ -425,8 +420,8 @@ section {
 .swiper-button-next,
 .swiper-button-prev {
   display: flex;
-  width: 34px;
-  height: 34px;
+  width: 54px;
+  height: 54px;
   margin-top: 0;
   align-items: center;
   justify-content: center;
@@ -434,9 +429,9 @@ section {
   top: 0;
   z-index: 10;
   cursor: pointer;
+  color: var(--text);
   background-color: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 4px;
   color: var(--color);
   -webkit-transition: background-color 0.2s linear, color 0.2s linear, border-color 0.2s linear;
   transition: background-color 0.2s linear, color 0.2s linear, border-color 0.2s linear;
@@ -449,8 +444,8 @@ section {
 }
 .swiper-button-next svg,
 .swiper-button-prev svg {
-  width: 14px;
-  height: 14px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
 }
 .swiper__navigation {
@@ -460,6 +455,11 @@ section {
 .swiper-button-next svg {
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
+}
+.swiper__buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 /* end swiper */
 
@@ -486,6 +486,7 @@ section {
 /* start button */
 .button__primary,
 .button__second,
+.button__plus,
 .button__pagination {
   display: flex;
   width: max-content;
@@ -495,12 +496,14 @@ section {
 }
 .button__primary:disabled,
 .button__second:disabled,
+.button__plus:disabled,
 .button__pagination:disabled {
   opacity: 0.3;
   pointer-events: none;
 }
 .button__primary span,
 .button__second span,
+.button__plus span,
 .button__pagination span {
   display: flex;
   height: 60px;
@@ -522,12 +525,22 @@ section {
   width: 60px;
   height: 60px;
 }
+.button__plus span {
+  width: 32px;
+  height: 32px;
+}
 .button__primary svg,
 .button__second svg,
 .button__pagination svg {
   display: flex;
   width: 24px;
   height: 24px;
+  object-fit: contain;
+}
+.button__plus svg {
+  display: flex;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
 }
 .button__primary span {
@@ -540,12 +553,14 @@ section {
   background-color: var(--bg);
   border-color: var(--text);
 }
-.button__second span {
+.button__second span,
+.button__plus span {
   color: var(--text);
   background-color: var(--bg-gray);
   border: 1px solid var(--text);
 }
-.button__second:hover span {
+.button__second:hover span,
+.button__plus:hover span {
   color: var(--bg);
   background-color: var(--text);
   border-color: var(--bg);
@@ -1089,6 +1104,223 @@ section {
 }
 /* end contract */
 
+/* start build */
+.build__block {
+  padding: 80px 0;
+}
+.build__flex {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.build__head {
+  max-width: 796px;
+}
+.build__divider {
+  border-bottom: 1px solid var(--border);
+}
+.build__bottom {
+  display: flex;
+  gap: 20px;
+}
+.build__left,
+.build__right {
+  width: calc(50% - 10px);
+}
+.build__swiper {
+  overflow: visible;
+}
+.build__link {
+  display: flex;
+  padding: 30px;
+  flex-direction: column;
+  gap: 30px;
+  border: 1px solid var(--border);
+}
+.build__image {
+  height: 500px;
+}
+.build__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.build__info {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.build__information {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.build__type {
+  color: var(--text-gray);
+}
+.build__buttons {
+  display: flex;
+  padding: 60px 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.build__buttons_left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.build__button {
+  display: flex;
+  height: 50px;
+  padding: 0 30px;
+  flex: 0 0 auto;
+  align-items: center;
+  color: var(--text);
+  background-color: var(--bg-gray);
+}
+.build__button.active {
+  color: var(--bg);
+  background-color: var(--text);
+}
+.swiper__buttons_one,
+.swiper__buttons_two,
+.swiper__buttons_three,
+.build__swiper_one,
+.build__swiper_two,
+.build__swiper_three {
+  display: none;
+}
+.swiper__buttons_one.active,
+.swiper__buttons_two.active,
+.swiper__buttons_three.active,
+.build__swiper_one.active,
+.build__swiper_two.active,
+.build__swiper_three.active {
+  display: flex;
+}
+/* end build */
+
+/* start docs */
+.docs__block {
+  padding: 80px 0;
+}
+.docs__flex {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.docs__head {
+  max-width: 796px;
+}
+.docs__divider {
+  border-bottom: 1px solid var(--border);
+}
+.docs__bottom {
+  display: flex;
+  gap: 20px;
+}
+.docs__left,
+.docs__right {
+  width: calc(50% - 10px);
+}
+.docs__list {
+  display: flex;
+  padding: 80px 0 0;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.docs__item {
+  display: flex;
+  width: calc(33.333% - 14px);
+  padding: 20px;
+  justify-content: space-between;
+  gap: 60px;
+  background-color: var(--bg-gray);
+  cursor: pointer;
+}
+.docs__image {
+  width: 180px;
+  height: 260px;
+  flex: 0 0 auto;
+}
+.docs__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.docs__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+.docs__item:hover .button__plus span {
+  color: var(--bg);
+  background-color: var(--text);
+  border-color: var(--bg);
+}
+.docs__popup {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  padding: 80px 0;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.docs__popup.active {
+  display: flex;
+  opacity: 1;
+}
+.docs__popup_content {
+  width: auto;
+  height: 100%;
+  position: relative;
+}
+.docs__popup_close {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0px;
+  right: -70px;
+  background: var(--text);
+  color: var(--bg);
+  z-index: 2;
+  cursor: pointer;
+}
+.docs__popup_close svg {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  transform: rotate(0deg);
+  transition: transform 0.2s linear;
+}
+.docs__popup_close:hover svg {
+  transform: rotate(90deg);
+}
+.docs__popup_image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.docs__popup_image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* end docs */
+
 @media (max-width: 1919px) {
   .container {
     padding: 0 40px;
@@ -1150,15 +1382,11 @@ section {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    background-color: #222;
-    transition: background-color 0.3s;
-  }
-  .header__burger:hover {
-    background-color: #444;
+    background-color: var(--text);
   }
   .header__burger_line {
     height: 2px;
-    background: white;
+    background: var(--bg);
     border-radius: 2px;
     transition: all 0.3s ease;
     transform-origin: center;
@@ -1171,16 +1399,16 @@ section {
   .header__burger_line:nth-child(3) {
     width: 100%;
   }
-  .burger.active .header__burger_line:nth-child(1) {
+  .header__burger.active .header__burger_line:nth-child(1) {
     transform: translateY(8.3px) rotate(45deg);
     width: 100%;
     align-self: center;
   }
-  .burger.active .header__burger_line:nth-child(2) {
+  .header__burger.active .header__burger_line:nth-child(2) {
     opacity: 0;
     transform: scaleX(0);
   }
-  .burger.active .header__burger_line:nth-child(3) {
+  .header__burger.active .header__burger_line:nth-child(3) {
     transform: translateY(-8.3px) rotate(-45deg);
     width: 100%;
   }
