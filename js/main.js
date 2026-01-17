@@ -577,4 +577,4 @@ if(popupImage){
     event.stopPropagation();
   });
 }
-// end dosc
+// end docs
