@@ -279,6 +279,71 @@
         </div>
       </div>
     </section>
+    <div class="hero__popup">
+      <button class="hero__popup_close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M7.54779 7.54827C7.88949 7.20656 8.44351 7.20656 8.78522 7.54827L20.4519 19.2149C20.7936 19.5566 20.7936 20.1107 20.4519 20.4524C20.1102 20.7941 19.5562 20.7941 19.2145 20.4524L7.54779 8.78571C7.20608 8.444 7.20608 7.88998 7.54779 7.54827Z" fill="currentColor"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M20.4519 7.54827C20.7936 7.88998 20.7936 8.444 20.4519 8.78571L8.78522 20.4524C8.44351 20.7941 7.88949 20.7941 7.54779 20.4524C7.20608 20.1107 7.20608 19.5566 7.54779 19.2149L19.2145 7.54827C19.5562 7.20656 20.1102 7.20656 20.4519 7.54827Z" fill="currentColor"/>
+        </svg>
+      </button>
+      <div class="hero__popup_block">
+        <h2 class="hero__popup_head">Оставьте заявку на бесплатную консультацию</h2>
+        <p class="hero__popup_desc text_two">Инженер изучит ваш проект, предложит технологию работ и ответит на все вопросы.</p>
+        <form action="#" class="hero__form" id="heroForm">
+          <div class="hero__form_controls">
+            <div class="form__control">
+              <input class="form__input" type="text" minl="2" maxl="40" id="hero__name" required />
+              <small class="form__counter"><span class="form__counter_min">0</span> из <span class="form__counter_max">40</span></small>
+              <label class="form__label text_small" for="hero__name">Введите имя <span>*</span></label>
+              <span class="form__bar"></span>
+              <span class="form__border"></span>
+              <small class="form__error">Введите имя</small>
+            </div>
+            <div class="form__control">
+              <input class="form__input" type="tel" minl="10" maxl="20" id="hero__phone" required />
+              <small class="form__counter"><span class="form__counter_min">0</span> из <span class="form__counter_max">20</span></small>
+              <label class="form__label text_small" for="hero__phone">Номер телефона <span>*</span></label>
+              <span class="form__bar"></span>
+              <span class="form__border"></span>
+              <small class="form__error">Введите номер телефона</small>
+            </div>
+            <div class="form__file">
+              <input type="file" class="form__input_file" id="hero__file" hidden>
+              <label class="form__file_button text_small" for="hero__file">
+                <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.2392 3.30646C11.2155 2.33013 12.7984 2.33015 13.7747 3.30646L13.4219 3.65928L13.7747 3.30646C14.751 4.28276 14.751 5.86567 13.7747 6.84199L13.7747 6.842L7.88216 12.7345C6.51533 14.1014 4.29925 14.1014 2.93242 12.7345L3.28597 12.381L2.93242 12.7345C1.56558 11.3677 1.56558 9.15162 2.93241 7.78479L7.88215 2.83504C8.07741 2.63978 8.394 2.63978 8.58926 2.83504C8.78452 3.03031 8.78452 3.34689 8.58926 3.54215L3.63952 8.4919L3.28597 8.13834L3.63952 8.4919C2.66321 9.4682 2.66321 11.0511 3.63952 12.0274L3.29217 12.3748L3.63952 12.0274C4.61583 13.0037 6.19875 13.0037 7.17505 12.0274L7.50503 12.3574L7.17505 12.0274L13.0676 6.1349C13.0676 6.1349 13.0676 6.13489 13.0676 6.13489C13.6534 5.54908 13.6534 4.59933 13.0676 4.01357C12.4818 3.42777 11.5321 3.42778 10.9463 4.01356L10.9463 4.01357L5.05374 9.90608C4.85848 10.1014 4.85848 10.418 5.05374 10.6132C5.24901 10.8085 5.56559 10.8085 5.76085 10.6132L10.7106 5.66346C10.9058 5.4682 11.2224 5.4682 11.4177 5.66346C11.613 5.85872 11.613 6.1753 11.4177 6.37056L6.46796 11.3203C5.88216 11.9061 4.93241 11.9061 4.34662 11.3203L4.3466 11.3203C3.76086 10.7345 3.76086 9.7848 4.3466 9.19901L4.34662 9.19899L10.2392 3.30646C10.2392 3.30646 10.2392 3.30646 10.2392 3.30646Z" fill="currentColor"/>
+                  </svg>
+                </span>
+                <span>Загрузить резюме</span>
+              </label>
+              <small class="form__error">Загрузите файл</small>
+              <ul id="form__file_container" class="form__file_list"></ul>
+            </div>
+          </div>
+          <div class="form__bottom">
+            <button type="submit" class="button__primary button hero__submit_button">
+              <span>Отправить</span>
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 6V18M18 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </form>
+        <div class="hero__popup_bottom">
+          <a href="#" target="_blank" class="hero__popup_social button">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="14" viewBox="0 0 17 14" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.16866 6.02691C5.73205 4.05119 8.77503 2.74867 10.2976 2.11936C14.6448 0.322542 15.5481 0.0104165 16.1369 0.000109891C16.2664 -0.00215693 16.5559 0.0297341 16.7435 0.180964C16.9018 0.30866 16.9454 0.481158 16.9663 0.602228C16.9871 0.723297 17.0131 0.999097 16.9924 1.2146C16.7569 3.6743 15.7375 9.64335 15.2189 12.3983C14.9995 13.564 14.5674 13.9548 14.1492 13.9931C13.2401 14.0762 12.5498 13.3961 11.6694 12.8225C10.2916 11.9251 9.5133 11.3664 8.17597 10.4907C6.63045 9.47859 7.63235 8.92233 8.51313 8.01324C8.74364 7.77533 12.7489 4.15509 12.8264 3.82668C12.8361 3.7856 12.8451 3.6325 12.7536 3.55166C12.6621 3.47081 12.527 3.49846 12.4295 3.52045C12.2913 3.55161 10.0904 4.99723 5.82663 7.8573C5.2019 8.2836 4.63604 8.49131 4.12904 8.48042C3.57012 8.46842 2.49499 8.16638 1.69573 7.90821C0.715411 7.59154 -0.063727 7.42412 0.00411841 6.88633C0.0394565 6.60621 0.427637 6.31974 1.16866 6.02691Z" fill="#191919"/>
+              </svg>
+            </span>
+            <span>Написать в телеграм</span>
+          </a>
+        </div>
+      </div>
+    </div>
     <section class="work">
       <div class="container work__container">
         <div class="work__block">
@@ -311,13 +376,13 @@
                   </ul>
                 </div>
                 <div class="work__info">
-                  <h4 class="work__heading">Все работы выполняем методом инъектирования</h4>
+                  <h5 class="work__heading">Все работы выполняем методом инъектирования</h5>
                   <p class="work__description text_two">
                     Аккуратно, без демонтажа и вмешательства в архитектурный облик. Технологии и материалы подбираем индивидуально под каждый объект.
                   </p>
                 </div>
                 <div class="work__info">
-                  <h4 class="work__heading">Работаем только на субподряде</h4>
+                  <h5 class="work__heading">Работаем только на субподряде</h5>
                   <p class="work__description text_two">
                     Не выполняем отделочные и декоративные реставрационные работы (лепнина, роспись, фрески, золочение). Мы отвечаем именно за конструктивную часть.
                   </p>
@@ -1083,8 +1148,48 @@
               <div class="footer__top_right">
                 <h2 class="footer__head">Оставьте заявку на бесплатную консультацию</h2>
                 <p class="footer__desc text_two">Инженер изучит ваш проект, предложит технологию работ и ответит на все вопросы.</p>
-                <form action="" class="footer__form">
-
+                <form action="#" class="footer__form form__black" id="footerForm">
+                  <div class="footer__form_controls">
+                    <div class="form__control">
+                      <input class="form__input" type="text" minl="2" maxl="40" id="footer__name" required />
+                      <small class="form__counter"><span class="form__counter_min">0</span> из <span class="form__counter_max">40</span></small>
+                      <label class="form__label text_small" for="footer__name">Введите имя <span>*</span></label>
+                      <span class="form__bar"></span>
+                      <span class="form__border"></span>
+                      <small class="form__error">Введите имя</small>
+                    </div>
+                    <div class="form__control">
+                      <input class="form__input" type="tel" minl="10" maxl="20" id="footer__phone" required />
+                      <small class="form__counter"><span class="form__counter_min">0</span> из <span class="form__counter_max">20</span></small>
+                      <label class="form__label text_small" for="footer__phone">Номер телефона <span>*</span></label>
+                      <span class="form__bar"></span>
+                      <span class="form__border"></span>
+                      <small class="form__error">Введите номер телефона</small>
+                    </div>
+                    <div class="form__file">
+                      <input type="file" class="form__input_file" id="footer__file" hidden>
+                      <label class="form__file_button text_small" for="footer__file">
+                        <span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.2392 3.30646C11.2155 2.33013 12.7984 2.33015 13.7747 3.30646L13.4219 3.65928L13.7747 3.30646C14.751 4.28276 14.751 5.86567 13.7747 6.84199L13.7747 6.842L7.88216 12.7345C6.51533 14.1014 4.29925 14.1014 2.93242 12.7345L3.28597 12.381L2.93242 12.7345C1.56558 11.3677 1.56558 9.15162 2.93241 7.78479L7.88215 2.83504C8.07741 2.63978 8.394 2.63978 8.58926 2.83504C8.78452 3.03031 8.78452 3.34689 8.58926 3.54215L3.63952 8.4919L3.28597 8.13834L3.63952 8.4919C2.66321 9.4682 2.66321 11.0511 3.63952 12.0274L3.29217 12.3748L3.63952 12.0274C4.61583 13.0037 6.19875 13.0037 7.17505 12.0274L7.50503 12.3574L7.17505 12.0274L13.0676 6.1349C13.0676 6.1349 13.0676 6.13489 13.0676 6.13489C13.6534 5.54908 13.6534 4.59933 13.0676 4.01357C12.4818 3.42777 11.5321 3.42778 10.9463 4.01356L10.9463 4.01357L5.05374 9.90608C4.85848 10.1014 4.85848 10.418 5.05374 10.6132C5.24901 10.8085 5.56559 10.8085 5.76085 10.6132L10.7106 5.66346C10.9058 5.4682 11.2224 5.4682 11.4177 5.66346C11.613 5.85872 11.613 6.1753 11.4177 6.37056L6.46796 11.3203C5.88216 11.9061 4.93241 11.9061 4.34662 11.3203L4.3466 11.3203C3.76086 10.7345 3.76086 9.7848 4.3466 9.19901L4.34662 9.19899L10.2392 3.30646C10.2392 3.30646 10.2392 3.30646 10.2392 3.30646Z" fill="currentColor"/>
+                          </svg>
+                        </span>
+                        <span>Загрузить резюме</span>
+                      </label>
+                      <small class="form__error">Загрузите файл</small>
+                      <ul id="form__file_container" class="form__file_list"></ul>
+                    </div>
+                  </div>
+                  <div class="form__bottom">
+                    <button type="submit" class="button__primary button footer__submit_button">
+                      <span>Отправить</span>
+                      <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <path d="M12 6V18M18 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>
@@ -1175,6 +1280,7 @@
     //   }, 500);
   });
   </script>
+  <script src="https://unpkg.com/imask"></script>
   <script src="js/swiper.min.js"></script>
   <script src="js/form.js"></script>
   <script src="js/textarea.js"></script>

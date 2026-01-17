@@ -61,6 +61,7 @@ const overlay = document.querySelector('.overlay');
 const overlayFull = document.querySelector('.overlay_full');
 const navContent = document.querySelector('.header__nav_block');
 const docsPopup = document.querySelector('.docs__popup');
+const heroPopup = document.querySelector('.hero__popup');
 
 // Функция для установки max-height
 function setElementHeight(element) {
@@ -102,6 +103,7 @@ if (burger && nav) {
           overlay.classList.remove('active');
           overlayFull.classList.remove('active');
           if(docsPopup){docsPopup.classList.remove('active')};
+          if(heroPopup){heroPopup.classList.remove('active')};
         }
       });
     }
@@ -137,6 +139,7 @@ navItems.forEach(item => {
               overlay.classList.remove('active');
               overlayFull.classList.remove('active');
               if(docsPopup){docsPopup.classList.remove('active')};
+              if(heroPopup){heroPopup.classList.remove('active')};
             }
             
             // Уменьшаем высоту навигации на высоту закрытого подменю
@@ -168,6 +171,7 @@ navItems.forEach(item => {
             overlay.classList.remove('active');
             overlayFull.classList.remove('active');
             if(docsPopup){docsPopup.classList.remove('active')};
+            if(heroPopup){heroPopup.classList.remove('active')};
           }
         }
       }
@@ -184,6 +188,7 @@ if (overlay) {
       overlay.classList.remove('active');
       overlayFull.classList.remove('active');
       if(docsPopup){docsPopup.classList.remove('active')};
+      if(heroPopup){heroPopup.classList.remove('active')};
       document.documentElement.classList.remove('noscroll');
       
       nav.style.maxHeight = '';
@@ -210,6 +215,7 @@ if (overlayFull) {
       overlay.classList.remove('active');
       overlayFull.classList.remove('active');
       if(docsPopup){docsPopup.classList.remove('active')};
+      if(heroPopup){heroPopup.classList.remove('active')};
       document.documentElement.classList.remove('noscroll');
       
       nav.style.maxHeight = '';
@@ -239,6 +245,7 @@ document.addEventListener('click', function(e) {
           overlay.classList.remove('active');
           overlayFull.classList.remove('active');
           if(docsPopup){docsPopup.classList.remove('active')};
+          if(heroPopup){heroPopup.classList.remove('active')};
         }
         
         subnav.classList.remove('active');
@@ -350,6 +357,24 @@ class Select {
 Select.attach()
 // end select
 
+// start hero
+const heroButton = document.querySelector('.hero__button');
+
+if(heroPopup) {
+  heroButton.addEventListener('click', function() {
+    if (heroPopup.classList.contains('active')) {
+      heroPopup.classList.remove('active');
+      overlayFull.classList.remove('active');
+      document.documentElement.classList.remove('noscroll');
+    } else {
+      heroPopup.classList.add('active');
+      overlayFull.classList.add('active');
+      document.documentElement.classList.add('noscroll');
+    }
+  });
+}
+// end hero
+
 // start build
 // Получаем все кнопки с классом build__button
 const buttons = document.querySelectorAll('.build__button');
@@ -394,16 +419,16 @@ function activateBlock(blockNumber) {
 
 // Обработчики кликов для кнопок
 buttons.forEach(button => {
-    button.addEventListener('click', function() {
-        // Определяем номер блока по классу кнопки
-        if (this.classList.contains('build__button_one')) {
-            activateBlock('one');
-        } else if (this.classList.contains('build__button_two')) {
-            activateBlock('two');
-        } else if (this.classList.contains('build__button_three')) {
-            activateBlock('three');
-        }
-    });
+  button.addEventListener('click', function() {
+    // Определяем номер блока по классу кнопки
+    if (this.classList.contains('build__button_one')) {
+      activateBlock('one');
+    } else if (this.classList.contains('build__button_two')) {
+      activateBlock('two');
+    } else if (this.classList.contains('build__button_three')) {
+      activateBlock('three');
+    }
+  });
 });
 
 const buildSliderOne = document.querySelector('.build__swiper_one');
