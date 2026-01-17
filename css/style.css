@@ -140,11 +140,6 @@ button {
   background-color: var(--text);
   transition-delay: 0s;
 }
-section,
-header {
-  transition: filter 0.3s linears;
-  transition-delay: 0.2s;
-}
 .error {
   color: var(--error);
 }
@@ -681,7 +676,7 @@ section {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 300;
   background-color: var(--bg);
 }
 .header__block {
@@ -701,10 +696,79 @@ section {
 }
 .header__nav_item {
   display: flex;
+  overflow: hidden;
 }
 .header__nav_link,
 .header__phone {
   flex: 0 0 auto;
+}
+.header__nav_link {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 5px;
+}
+.header__nav_arrow {
+  display: flex;
+  width: 14px;
+  height: 14px;
+  transform: rotate(0deg);
+  transition: transform 0.2s linear;
+}
+.header__nav_item.active .header__nav_arrow {
+  transform: rotate(-90deg);
+}
+.header__subnav {
+  width: 100%;
+  height: calc(100vh - 80px);
+  max-height: 0px;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  transition: max-height 0.35s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.35s cubic-bezier(0.645, 0.045, 0.355, 1);
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.header__subnav_block {
+  padding: 50px 0 70px;
+}
+.header__nav_item.active .header__subnav {
+  max-height: 1000px;
+  opacity: 1;
+}
+.header__subnav_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.header__subnav_item {
+  width: calc(33.333% - 14px);
+}
+.header__subnav_item:last-child {
+  margin: 0 0 0 auto;
+}
+.header__subnav_link {
+  display: flex;
+  align-items: center;
+}
+.header__subnav_arrow {
+  display: flex;
+  width: 0px;
+  height: 20px;
+  margin: 0;
+  flex: 0 0 auto;
+  transition: width 0.2s linear, transform 0.2s linear;
+}
+.header__subnav_link:hover .header__subnav_arrow {
+  width: 20px;
+  margin: 0 5px 0 0;
+}
+.header__nav_social {
+  display: none;
 }
 .header__right {
   display: flex;
@@ -1539,16 +1603,93 @@ section {
   .pagination_page {
     max-width: 180px;
   }
-  .header__nav,
-  .header__social,
-  .header__phone span,
-  .header__call {
+  .header,
+  .top {
+    height: 60px;
+  }
+  .header__right .header__social,
+  .header__right .header__phone span,
+  .header__right .header__call {
     display: none;
+  }
+  .header__nav {
+    width: 100%;
+    height: calc(100vh - 60px);
+    max-height: 0;
+    position: fixed;
+    top: 60px;
+    right: 0;
+    background-color: var(--bg);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    transition: max-height 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+  .header__nav.active {
+    max-height: calc(100vh - 60px);
+  }
+  .header__nav_block {
+    padding: 40px 0;
+  }
+  .header__nav_list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .header__nav_item {
+    width: 100%;
+    flex-direction: column;
+  }
+  .header__nav_link {
+    padding: 0 20px;
+    font-size: 32px;
+    font-weight: 600;
+  }
+  .header__nav_arrow {
+    width: 20px;
+    height: 20px;
+  }
+  .header__subnav {
+    padding: 0;
+    position: relative;
+    top: 0;
+    background-color: transparent;
+    border-bottom: none;
+  }
+  .header__subnav_block {
+    padding: 25px 15px;
+  }
+  .header__subnav_list {
+    flex-direction: column;
+  }
+  .header__subnav_item {
+    width: 100%;
+  }
+  .header__subnav_item:last-child,
+  .header__subnav_arrow {
+    display: none;
+  }
+  .header__nav_social {
+    display: flex;
+    padding: 0 20px;
+    flex-direction: column;
+  }
+  .header__nav_social .header__call {
+    margin: 40px 0 30px;
+  }
+  .header__nav_social .header__phone {
+    padding: 30px 0;
+    font-size: 24px;
+    font-weight: 600;
+    border-top: 1px solid var(--border);
+  }
+  .header__nav_social .header__social_link {
+    width: 40px;
+    height: 40px;
   }
   .header__right {
     gap: 10px;
   }
-  .header__phone {
+  .header__right .header__phone {
     display: flex;
     width: 40px;
     height: 40px;
@@ -1556,7 +1697,7 @@ section {
     justify-content: center;
     background-color: var(--bg-gray);
   }
-  .header__phone svg {
+  .header__right .header__phone svg {
     display: flex;
     width: 20px;
     height: 20px;

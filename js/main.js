@@ -54,39 +54,165 @@ if(!year){} else {
 // end year
 
 // start navbar
-const overlay = document.querySelector('.overlay');
 const burger = document.querySelector('.header__burger');
-const docsPopup = document.querySelector('.docs__popup');
+const nav = document.querySelector('.header__nav');
+const navItems = document.querySelectorAll('.header__nav_item');
+const overlay = document.querySelector('.overlay');
+const navContent = document.querySelector('.header__nav_block');
 
-if (burger) {
+// Функция для установки max-height
+function setElementHeight(element) {
+  if (element.classList.contains('active')) {
+    element.style.maxHeight = element.scrollHeight + 'px';
+  } else {
+    element.style.maxHeight = '';
+  }
+}
+
+// Обработчик для бургер-меню
+if (burger && nav) {
   burger.addEventListener('click', function() {
-    if (burger.classList.contains('active')) {
-      burger.classList.remove('active');
-      overlay.classList.remove('active');
-      document.documentElement.classList.remove("noscroll");
-      if(docsPopup){docsPopup.classList.remove('active')};
+    const isActive = nav.classList.contains('active');
+    
+    // Переключаем активный класс у навигации
+    nav.classList.toggle('active');
+    burger.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.documentElement.classList.toggle('noscroll');
+    
+    if (!isActive) {
+      // Открываем навигацию - устанавливаем высоту контента
+      const navContentHeight = navContent.scrollHeight;
+      nav.style.maxHeight = navContentHeight + 'px';
     } else {
-      burger.classList.add('active');
-      overlay.classList.add('active');
-      document.documentElement.classList.add("noscroll");
+      // Закрываем навигацию
+      nav.style.maxHeight = '';
+      
+      // Закрываем все подменю
+      navItems.forEach(item => {
+        const subnav = item.querySelector('.header__subnav');
+        if (subnav) {
+          subnav.classList.remove('active');
+          subnav.style.maxHeight = '';
+          item.classList.remove('active');
+        }
+        if(window.innerWidth >= 1280){
+          overlay.classList.remove('active');
+        }
+      });
     }
   });
 }
 
+// Обработчик для элементов навигации с подменю
+navItems.forEach(item => {
+  const link = item.querySelector('.header__nav_link');
+  const subnav = item.querySelector('.header__subnav');
+  const arrow = item.querySelector('.header__nav_arrow');
+  
+  if (link && subnav) {
+    link.addEventListener('click', function(e) {
+      // Если у элемента есть стрелка (подменю)
+      if (arrow) {
+        // Блокируем переход по ссылке только если элемент не активен
+        if (!item.classList.contains('active')) {
+          e.preventDefault();
+        }
+        
+        const wasActive = subnav.classList.contains('active');
+        const subnavHeight = subnav.scrollHeight;
+        const currentNavHeight = parseFloat(nav.style.maxHeight) || 0;
+        
+        // Закрываем все другие подменю
+        document.querySelectorAll('.header__subnav').forEach(otherSubnav => {
+          if (otherSubnav !== subnav && otherSubnav.classList.contains('active')) {
+            otherSubnav.classList.remove('active');
+            otherSubnav.style.maxHeight = '';
+            otherSubnav.closest('.header__nav_item').classList.remove('active');
+            if(window.innerWidth >= 1280){
+              overlay.classList.remove('active');
+            }
+            
+            // Уменьшаем высоту навигации на высоту закрытого подменю
+            const otherHeight = otherSubnav.scrollHeight;
+            nav.style.maxHeight = (currentNavHeight - otherHeight) + 'px';
+          }
+        });
+        
+        // Получаем текущую высоту навигации после возможного закрытия других подменю
+        const updatedNavHeight = parseFloat(nav.style.maxHeight) || navContent.scrollHeight;
+        
+        if (!wasActive) {
+          // Открываем подменю
+          e.preventDefault(); // Блокируем переход при открытии подменю
+          subnav.classList.add('active');
+          item.classList.add('active');
+          subnav.style.maxHeight = subnavHeight + 'px';
+          nav.style.maxHeight = (updatedNavHeight + subnavHeight) + 'px';
+          if(window.innerWidth >= 1280){
+            overlay.classList.add('active');
+          }
+        } else {
+          // Закрываем подменю и разрешаем переход по ссылке
+          subnav.classList.remove('active');
+          item.classList.remove('active');
+          subnav.style.maxHeight = '';
+          nav.style.maxHeight = (updatedNavHeight - subnavHeight) + 'px';
+          if(window.innerWidth >= 1280){
+            overlay.classList.remove('active');
+          }
+        }
+      }
+    });
+  }
+});
+
+// Закрытие меню при клике на оверлей
 if (overlay) {
   overlay.addEventListener('click', function() {
-    if (overlay.classList.contains('active')) {
+    if (nav.classList.contains('active')) {
+      nav.classList.remove('active');
       burger.classList.remove('active');
       overlay.classList.remove('active');
-      document.documentElement.classList.remove("noscroll");
-      if(docsPopup){docsPopup.classList.remove('active')};
-    } else {
-      burger.classList.add('active');
-      overlay.classList.add('active');
-      document.documentElement.classList.add("noscroll");
+      document.documentElement.classList.remove('noscroll');
+      
+      nav.style.maxHeight = '';
+      
+      // Закрываем все подменю
+      navItems.forEach(item => {
+        const subnav = item.querySelector('.header__subnav');
+        if (subnav) {
+          subnav.classList.remove('active');
+          subnav.style.maxHeight = '';
+          item.classList.remove('active');
+        }
+      });
     }
   });
 }
+
+// Закрытие подменю при клике вне его
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.header__nav_item') && !e.target.closest('.header__burger')) {
+    navItems.forEach(item => {
+      const subnav = item.querySelector('.header__subnav');
+      if (subnav && subnav.classList.contains('active')) {
+        const subnavHeight = subnav.scrollHeight;
+        const currentNavHeight = parseFloat(nav.style.maxHeight) || 0;
+        if(window.innerWidth >= 1280){
+          overlay.classList.remove('active');
+        }
+        
+        subnav.classList.remove('active');
+        item.classList.remove('active');
+        subnav.style.maxHeight = '';
+        
+        // Уменьшаем высоту навигации
+        nav.style.maxHeight = (currentNavHeight - subnavHeight) + 'px';
+      }
+    });
+  }
+});
 // end navbar
 
 // start select
