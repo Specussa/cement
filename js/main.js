@@ -58,7 +58,9 @@ const burger = document.querySelector('.header__burger');
 const nav = document.querySelector('.header__nav');
 const navItems = document.querySelectorAll('.header__nav_item');
 const overlay = document.querySelector('.overlay');
+const overlayFull = document.querySelector('.overlay_full');
 const navContent = document.querySelector('.header__nav_block');
+const docsPopup = document.querySelector('.docs__popup');
 
 // Функция для установки max-height
 function setElementHeight(element) {
@@ -98,6 +100,8 @@ if (burger && nav) {
         }
         if(window.innerWidth >= 1280){
           overlay.classList.remove('active');
+          overlayFull.classList.remove('active');
+          if(docsPopup){docsPopup.classList.remove('active')};
         }
       });
     }
@@ -131,6 +135,8 @@ navItems.forEach(item => {
             otherSubnav.closest('.header__nav_item').classList.remove('active');
             if(window.innerWidth >= 1280){
               overlay.classList.remove('active');
+              overlayFull.classList.remove('active');
+              if(docsPopup){docsPopup.classList.remove('active')};
             }
             
             // Уменьшаем высоту навигации на высоту закрытого подменю
@@ -160,6 +166,8 @@ navItems.forEach(item => {
           nav.style.maxHeight = (updatedNavHeight - subnavHeight) + 'px';
           if(window.innerWidth >= 1280){
             overlay.classList.remove('active');
+            overlayFull.classList.remove('active');
+            if(docsPopup){docsPopup.classList.remove('active')};
           }
         }
       }
@@ -170,10 +178,38 @@ navItems.forEach(item => {
 // Закрытие меню при клике на оверлей
 if (overlay) {
   overlay.addEventListener('click', function() {
-    if (nav.classList.contains('active')) {
+    if (overlay.classList.contains('active')) {
       nav.classList.remove('active');
       burger.classList.remove('active');
       overlay.classList.remove('active');
+      overlayFull.classList.remove('active');
+      if(docsPopup){docsPopup.classList.remove('active')};
+      document.documentElement.classList.remove('noscroll');
+      
+      nav.style.maxHeight = '';
+      
+      // Закрываем все подменю
+      navItems.forEach(item => {
+        const subnav = item.querySelector('.header__subnav');
+        if (subnav) {
+          subnav.classList.remove('active');
+          subnav.style.maxHeight = '';
+          item.classList.remove('active');
+        }
+      });
+    }
+  });
+}
+
+// Закрытие меню при клике на оверлей
+if (overlayFull) {
+  overlayFull.addEventListener('click', function() {
+    if (overlayFull.classList.contains('active')) {
+      nav.classList.remove('active');
+      burger.classList.remove('active');
+      overlay.classList.remove('active');
+      overlayFull.classList.remove('active');
+      if(docsPopup){docsPopup.classList.remove('active')};
       document.documentElement.classList.remove('noscroll');
       
       nav.style.maxHeight = '';
@@ -201,6 +237,8 @@ document.addEventListener('click', function(e) {
         const currentNavHeight = parseFloat(nav.style.maxHeight) || 0;
         if(window.innerWidth >= 1280){
           overlay.classList.remove('active');
+          overlayFull.classList.remove('active');
+          if(docsPopup){docsPopup.classList.remove('active')};
         }
         
         subnav.classList.remove('active');
@@ -473,53 +511,47 @@ if(projectdesktopSlider){
 // start dosc
 const closePopup = document.querySelector('.docs__popup_close');
 const popupImage = document.getElementById('popupImage');
-
-// Получаем все элементы docs__item
 const docItems = document.querySelectorAll('.docs__item');
 
-// Функция для открытия попапа
-function openPopup(imageSrc, altText) {
-  popupImage.src = imageSrc;
-  popupImage.alt = altText || 'Увеличенное изображение';
-  docsPopup.classList.add('active');
-  overlay.classList.add('active');
-  document.documentElement.classList.add("noscroll");
-}
-
-// Функция для закрытия попапа
-function closePopupHandler() {
-  docsPopup.classList.remove('active');
-  overlay.classList.remove('active');
-  document.documentElement.classList.remove("noscroll");
-}
-
-// Добавляем обработчики кликов на каждый элемент docs__item
-docItems.forEach(item => {
-  item.addEventListener('click', function(event) {
-    // Ищем изображение внутри текущего элемента
-    const image = this.querySelector('.docs__image img');
-    const altText = this.querySelector('.docs__heading')?.textContent || '';
-    
-    if (image && image.src) {
-      openPopup(image.src, altText);
-    }
-  });
-});
-
-// Закрытие по клику на крестик
-closePopup.addEventListener('click', closePopupHandler);
-
-// Закрытие по клику на оверлей (вне изображения)
-docsPopup.addEventListener('click', function(event) {
-  if (event.target === docsPopup) {
-    closePopupHandler();
+if(popupImage){
+  // Функция для открытия попапа
+  function openPopup(imageSrc, altText) {
+    popupImage.src = imageSrc;
+    popupImage.alt = altText || 'Увеличенное изображение';
+    docsPopup.classList.add('active');
+    overlayFull.classList.add('active');
+    document.documentElement.classList.add("noscroll");
   }
-});
 
-// Предотвращаем закрытие при клике на само изображение
-popupImage.addEventListener('click', function(event) {
-  event.stopPropagation();
-});
+  // Функция для закрытия попапа
+  function closePopupHandler() {
+    docsPopup.classList.remove('active');
+    overlay.classList.remove('active');
+    overlayFull.classList.remove('active');
+    document.documentElement.classList.remove("noscroll");
+  }
+
+  // Добавляем обработчики кликов на каждый элемент docs__item
+  docItems.forEach(item => {
+    item.addEventListener('click', function(event) {
+      // Ищем изображение внутри текущего элемента
+      const image = this.querySelector('.docs__image img');
+      const altText = this.querySelector('.docs__heading')?.textContent || '';
+      
+      if (image && image.src) {
+        openPopup(image.src, altText);
+      }
+    });
+  });
+
+  // Закрытие по клику на крестик
+  closePopup.addEventListener('click', closePopupHandler);
+
+  // Предотвращаем закрытие при клике на само изображение
+  popupImage.addEventListener('click', function(event) {
+    event.stopPropagation();
+  });
+}
 // end dosc
 
 // start index animation
