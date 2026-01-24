@@ -578,3 +578,22 @@ if(popupImage){
   });
 }
 // end docs
+
+// start breadcrumbs__back
+const backButton = document.querySelector('.breadcrumbs__back');
+if (backButton) {
+  backButton.addEventListener('click', function() {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = '/';
+    }
+  });
+  
+  // Опционально: добавляем атрибут для доступности
+  backButton.setAttribute('title', 'Назад');
+  backButton.setAttribute('aria-label', 'Вернуться на предыдущую страницу');
+} else {
+  console.warn('Кнопка с классом .breadcrumbs__back не найдена');
+}
+// end breadcrumbs__back
