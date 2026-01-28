@@ -358,22 +358,120 @@ Select.attach()
 // end select
 
 // start hero
+const heroButtons = document.querySelectorAll('.hero__button');
 const heroButton = document.querySelector('.hero__button');
+const heroClose = document.querySelector('.hero__popup_close');
 
-if(heroPopup) {
-  heroButton.addEventListener('click', function() {
-    if (heroPopup.classList.contains('active')) {
-      heroPopup.classList.remove('active');
-      overlayFull.classList.remove('active');
-      document.documentElement.classList.remove('noscroll');
+if(heroClose) {
+  heroClose.addEventListener('click', function() {
+    heroPopup.classList.remove('active');
+    overlayFull.classList.remove('active');
+    document.documentElement.classList.remove('noscroll');
+  });
+}
+heroButtons.forEach(function(button) {
+  if(heroButton) {
+    button.addEventListener('click', function() {
+      if (heroPopup.classList.contains('active')) {
+        heroPopup.classList.remove('active');
+        overlayFull.classList.remove('active');
+        document.documentElement.classList.remove('noscroll');
+      } else {
+        heroPopup.classList.add('active');
+        overlayFull.classList.add('active');
+        document.documentElement.classList.add('noscroll');
+      }
+    });
+  }
+});
+// end hero
+
+// start faq
+const accordionItems = document.querySelectorAll('.faq__item');
+
+// Функция для расчета высоты содержимого
+function calculateContentHeight(content) {
+  // Временно показываем элемент для измерения высоты
+  content.style.maxHeight = 'none';
+  content.style.visibility = 'hidden';
+  content.style.display = 'block';
+  
+  // Получаем полную высоту содержимого
+  const height = content.scrollHeight;
+  
+  // Возвращаем стили в исходное состояние
+  content.style.maxHeight = '';
+  content.style.visibility = '';
+  content.style.display = '';
+  
+  return height;
+}
+
+// Инициализация аккордеона
+function initAccordion() {
+  accordionItems.forEach(item => {
+    const button = item.querySelector('.faq__button');
+    const content = item.querySelector('.faq__info');
+    
+    // Рассчитываем и сохраняем высоту содержимого
+    const contentHeight = calculateContentHeight(content);
+    
+    // Обработчик клика по кнопке
+    button.addEventListener('click', function() {
+      // Закрываем все остальные элементы
+      if (!item.classList.contains('active')) {
+        accordionItems.forEach(otherItem => {
+          if (otherItem !== item && otherItem.classList.contains('active')) {
+            otherItem.classList.remove('active');
+            const otherContent = otherItem.querySelector('.faq__info');
+            otherContent.style.maxHeight = '0px';
+          }
+        });
+      }
+      
+      // Переключаем текущий элемент
+      item.classList.toggle('active');
+      
+      // Анимируем высоту содержимого
+      if (item.classList.contains('active')) {
+        content.style.maxHeight = contentHeight + 'px';
+      } else {
+        content.style.maxHeight = '0px';
+      }
+    });
+    
+    // Устанавливаем начальную высоту для закрытых элементов
+    if (!item.classList.contains('active')) {
+      content.style.maxHeight = '0px';
     } else {
-      heroPopup.classList.add('active');
-      overlayFull.classList.add('active');
-      document.documentElement.classList.add('noscroll');
+      content.style.maxHeight = contentHeight + 'px';
     }
   });
 }
-// end hero
+
+// Функция для обновления высоты при изменении размера окна
+function updateAccordionHeights() {
+  accordionItems.forEach(item => {
+    const content = item.querySelector('.faq__info');
+    
+    if (item.classList.contains('active')) {
+      // Пересчитываем высоту для открытых элементов
+      const contentHeight = calculateContentHeight(content);
+      content.style.maxHeight = contentHeight + 'px';
+    }
+  });
+}
+
+// Инициализируем аккордеон
+initAccordion();
+
+// Обновляем высоту при изменении размера окна
+let resizeTimer;
+window.addEventListener('resize', function() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(updateAccordionHeights, 250);
+});
+// end faq
 
 // start build
 // Получаем все кнопки с классом build__button
@@ -447,7 +545,7 @@ if(buildSliderOne){
         slidesPerView: 2,
         spaceBetween: 20,
       },
-      1440: {
+      1280: {
         slidesPerView: 2,
         spaceBetween: 20,
       },
@@ -474,7 +572,7 @@ if(buildSliderTwo){
         slidesPerView: 2,
         spaceBetween: 20,
       },
-      1440: {
+      1280: {
         slidesPerView: 2,
         spaceBetween: 20,
       },
@@ -501,7 +599,7 @@ if(buildSliderThree){
         slidesPerView: 2,
         spaceBetween: 20,
       },
-      1440: {
+      1280: {
         slidesPerView: 2,
         spaceBetween: 20,
       },
