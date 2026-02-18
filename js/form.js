@@ -254,17 +254,19 @@ class FormValidator {
     
     const fileControl = this.fileInput.closest('.form__file');
     
+    // Убираем проверку на обязательность - файлы не обязательны
     if (this.filesToUpload.length === 0) {
+      // Просто возвращаем true, не показываем ошибку
       if (fileControl) {
-        fileControl.classList.add('error');
+        fileControl.classList.remove('error');
         fileControl.classList.remove('success');
         
         const errorElement = fileControl.querySelector('.form__error');
         if (errorElement) {
-          errorElement.textContent = 'Пожалуйста, загрузите файл';
+          errorElement.textContent = '';
         }
       }
-      return false;
+      return true;
     }
     
     return true;

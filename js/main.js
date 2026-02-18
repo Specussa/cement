@@ -74,7 +74,9 @@ function setElementHeight(element) {
 
 // Обработчик для бургер-меню
 if (burger && nav) {
-  burger.addEventListener('click', function() {
+  burger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    
     const isActive = nav.classList.contains('active');
     
     // Переключаем активный класс у навигации
@@ -179,59 +181,11 @@ navItems.forEach(item => {
   }
 });
 
-// Закрытие попапов при клике на ссылки в хедере
-const headerLinks = document.querySelectorAll('.header__nav_link, .header__subnav_link');
-
-headerLinks.forEach(link => {
-  link.addEventListener('click', function() {
-    // Закрываем docsPopup если он открыт
-    if (docsPopup && docsPopup.classList.contains('active')) {
-      docsPopup.classList.remove('active');
-    }
-    
-    // Закрываем heroPopup если он открыт
-    if (heroPopup && heroPopup.classList.contains('active')) {
-      heroPopup.classList.remove('active');
-    }
-    
-    // Закрываем overlay если он открыт
-    if (overlay && overlay.classList.contains('active')) {
-      overlay.classList.remove('active');
-    }
-    
-    // Закрываем overlayFull если он открыт
-    if (overlayFull && overlayFull.classList.contains('active')) {
-      overlayFull.classList.remove('active');
-    }
-    
-    // Убираем класс noscroll с html элемента
-    document.documentElement.classList.remove('noscroll');
-    
-    // Закрываем мобильное меню если оно открыто
-    if (nav && nav.classList.contains('active')) {
-      nav.classList.remove('active');
-      nav.style.maxHeight = '';
-      
-      if (burger) {
-        burger.classList.remove('active');
-      }
-      
-      // Закрываем все подменю
-      navItems.forEach(item => {
-        const subnav = item.querySelector('.header__subnav');
-        if (subnav) {
-          subnav.classList.remove('active');
-          subnav.style.maxHeight = '';
-          item.classList.remove('active');
-        }
-      });
-    }
-  });
-});
-
 // Закрытие меню при клике на оверлей
 if (overlay) {
-  overlay.addEventListener('click', function() {
+  overlay.addEventListener('click', function(e) {
+    e.stopPropagation();
+    
     if (overlay.classList.contains('active')) {
       nav.classList.remove('active');
       burger.classList.remove('active');
@@ -258,7 +212,9 @@ if (overlay) {
 
 // Закрытие меню при клике на оверлей
 if (overlayFull) {
-  overlayFull.addEventListener('click', function() {
+  overlayFull.addEventListener('click', function(e) {
+    e.stopPropagation();
+    
     if (overlayFull.classList.contains('active')) {
       nav.classList.remove('active');
       burger.classList.remove('active');
@@ -285,6 +241,15 @@ if (overlayFull) {
 
 // Закрытие подменю при клике вне его
 document.addEventListener('click', function(e) {
+  // Проверяем, не был ли клик по аккордеону или его элементам
+  const isFaqClick = e.target.closest('.faq__item, .faq__button, .faq__info, .faq__question, .faq__answer');
+  
+  // Если клик был по аккордеону - ничего не делаем с меню
+  if (isFaqClick) {
+    return;
+  }
+  
+  // Проверяем, не был ли клик по элементам навигации или бургеру
   if (!e.target.closest('.header__nav_item') && !e.target.closest('.header__burger')) {
     navItems.forEach(item => {
       const subnav = item.querySelector('.header__subnav');
@@ -306,6 +271,56 @@ document.addEventListener('click', function(e) {
         nav.style.maxHeight = (currentNavHeight - subnavHeight) + 'px';
       }
     });
+  }
+});
+
+// Закрытие попапов при клике на ссылки в хедере (только для реальных переходов)
+document.addEventListener('click', function(e) {
+  // Проверяем, не был ли клик по аккордеону
+  const isFaqClick = e.target.closest('.faq__item, .faq__button, .faq__info, .faq__question, .faq__answer');
+  
+  // Если клик был по аккордеону - ничего не делаем
+  if (isFaqClick) {
+    return;
+  }
+  
+  // Находим ссылку в хедере, по которой кликнули
+  const headerLink = e.target.closest('.header__nav_link, .header__subnav_link');
+  
+  if (headerLink) {
+    // Проверяем, есть ли у родительского элемента стрелка (подменю)
+    const parentItem = headerLink.closest('.header__nav_item');
+    const hasArrow = parentItem && parentItem.querySelector('.header__nav_arrow');
+    
+    // Если это ссылка без стрелки (не открывает подменю) или мы кликнули по ссылке в подменю
+    if (!hasArrow || headerLink.closest('.header__subnav')) {
+      // Закрываем все попапы
+      if (docsPopup) docsPopup.classList.remove('active');
+      if (heroPopup) heroPopup.classList.remove('active');
+      if (overlay) overlay.classList.remove('active');
+      if (overlayFull) overlayFull.classList.remove('active');
+      document.documentElement.classList.remove('noscroll');
+      
+      // Закрываем мобильное меню если оно открыто
+      if (nav && nav.classList.contains('active')) {
+        nav.classList.remove('active');
+        nav.style.maxHeight = '';
+        
+        if (burger) {
+          burger.classList.remove('active');
+        }
+        
+        // Закрываем все подменю
+        navItems.forEach(item => {
+          const subnav = item.querySelector('.header__subnav');
+          if (subnav) {
+            subnav.classList.remove('active');
+            subnav.style.maxHeight = '';
+            item.classList.remove('active');
+          }
+        });
+      }
+    }
   }
 });
 // end navbar
