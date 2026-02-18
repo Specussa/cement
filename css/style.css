@@ -739,7 +739,7 @@ section {
   transition: transform 0.2s linear, font-size 0.2s linear, color 0.2s linear;
 }
 .form__black .form__label {
-  color: var(--bg);
+  color: var(--text-gray);
 }
 .form__input:focus ~ .form__label,
 .form__input:valid ~ .form__label {
@@ -819,7 +819,7 @@ section {
   transition: color 0.15s linear, border-color 0.15s linear;
 }
 .form__black .form__file_button {
-  color: var(--bg);
+  color: var(--text-gray);
   border-bottom: 1px solid var(--dborder);
 }
 .form__file.error .form__file_button {
@@ -853,6 +853,89 @@ section {
 }
 .form__bottom {
   padding: 40px 0 0;
+}
+.form__policy {
+  margin-top: 20px;
+  position: relative;
+}
+.form__policy.error .policy__checkmark {
+  border-color: var(--error);
+}
+.form__policy.error .form__error_policy {
+  color: var(--error);
+  display: block;
+}
+.form__error_policy {
+  display: none;
+  font-size: 12px;
+  margin-top: 5px;
+}
+.policy__checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+}
+.policy__input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.policy__checkmark {
+  display: flex;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  transition: background-color 0.15s linear, border-color 0.15s linear;
+}
+.policy__checkmark svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  color: var(--bg);
+  transition: opacity 0.15s linear;
+}
+.policy__input:checked ~ .policy__checkmark {
+  background-color: var(--text);
+  border-color: var(--text);
+}
+.policy__input:checked ~ .policy__checkmark svg {
+  opacity: 1;
+}
+.policy__text {
+  color: var(--text-gray);
+}
+.policy__text a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.policy__text a:hover {
+  color: var(--color);
+}
+.form__black .policy__text {
+  color: var(--text-dgray);
+}
+.form__black .policy__text a {
+  color: var(--bg);
+}
+.form__black .policy__checkmark {
+  background-color: transparent;
+  border-color: var(--dborder);
+}
+.form__black .policy__input:checked ~ .policy__checkmark {
+  background-color: var(--bg);
+  border-color: var(--bg);
+}
+.form__black .policy__input:checked ~ .policy__checkmark svg {
+  color: var(--text);
 }
 /* end form */
 
@@ -952,7 +1035,13 @@ section {
 .button__white:hover span {
   color: var(--bg);
   background-color: var(--text);
-  border-color: var(--text);
+  border-color: var(--bg);
+}
+.button__white:hover span:last-child:not(:first-child) {
+  border-top: 1px solid var(--bg);
+  border-left: 1px solid var(--text);
+  border-right: 1px solid var(--bg);
+  border-bottom: 1px solid var(--bg);
 }
 .button__second span,
 .button__plus span {
@@ -1242,7 +1331,6 @@ section {
   display: flex;
   padding: 80px 0 0;
   flex-direction: column;
-  gap: 40px;
 }
 .hero__top {
   display: flex;
@@ -1258,6 +1346,7 @@ section {
 }
 .hero__newblock .hero__flex {
   padding: 50px 0 60px;
+  align-items: flex-start;
 }
 .hero__flex {
   display: flex;
@@ -1271,6 +1360,7 @@ section {
 }
 .hero__desc {
   max-width: 460px;
+  color: var(--text-gray);
 }
 .hero__image {
   display: flex;
@@ -1280,6 +1370,10 @@ section {
   width: 100%;
   height: auto;
   object-fit: cover;
+}
+.header__logo_link svg {
+  height: 24px;
+  object-fit: contain;
 }
 /* end hero */
 
@@ -1305,12 +1399,15 @@ section {
 }
 .hero__popup_block {
   display: flex;
+  width: 100%;
   max-height: 100vh;
   padding: 60px;
   flex-direction: column;
-  gap: 20px;
   overflow-x: hidden;
   overflow-y: scroll;
+}
+.hero__popup_head {
+  padding: 0 0 20px;
 }
 .hero__popup_desc {
   padding: 0 0 10px;
@@ -1399,6 +1496,22 @@ section {
 .work__right .work__list {
   max-width: 710px;
 }
+.work__item {
+  position: relative;
+  padding-left: 15px;
+}
+.work__item::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--text-gray);
+  font-size: 20px;
+  line-height: 1;
+}
+.work__desc,
+.work__description {
+  color: var(--text-gray);
+}
 .work__info {
   display: flex;
   flex-direction: column;
@@ -1406,16 +1519,16 @@ section {
 }
 .work__image {
   width: 100%;
-  max-width: 550px;
+  margin: auto 0 0;
 }
 .work__image img {
   width: 100%;
   height: auto;
   object-fit: contain;
 }
-.work__button,
-.work__image {
+.work__buttons {
   margin: auto 0 0;
+  padding: 40px 0 0;
 }
 /* end work */
 
@@ -1646,6 +1759,7 @@ section {
   gap: 35px;
   position: relative;
   background-color: var(--bg-dgray);
+  border: none;
 }
 .contract__item:last-child {
   padding: 30px;
@@ -1755,13 +1869,9 @@ section {
 }
 .build__buttons_left {
   display: flex;
-  width: calc(50% - 10px);
   flex-wrap: wrap;
   align-items: center;
   gap: 20px;
-}
-.build__buttons_right {
-  width: calc(50% - 10px);
 }
 .build__buttons_right .swiper__buttons {
   justify-content: flex-end;
@@ -2118,7 +2228,7 @@ section {
 }
 .about__top {
   display: flex;
-  padding: 30px 0;
+  padding: 30px 0 60px;
   gap: 20px;
 }
 .about__buttons {
@@ -2139,11 +2249,14 @@ section {
 }
 .about__middle {
   display: flex;
-  width: calc(50% - 10px);
+  width: 100%;
   padding: 0 0 50px;
   flex-direction: column;
   gap: 40px;
   border-bottom: 1px solid var(--border);
+}
+.about__title {
+  width: calc(50% - 10px);
 }
 .about__information {
   display: flex;
@@ -2162,10 +2275,15 @@ section {
 }
 .about_process__flex {
   display: flex;
-  width: calc(50% - 10px);
-  padding: 0 0 50px;
+  width: 100%;
+  padding: 0 0 30px;
+  margin: 0 0 30px;
   flex-direction: column;
   gap: 40px;
+  border-bottom: 1px solid var(--border);
+}
+.about_process__head {
+  width: calc(50% - 10px);
 }
 .about_process__list {
   display: flex;
@@ -2267,6 +2385,57 @@ section {
 }
 /* end faq */
 
+/* start cookie */
+#cookieConsent {
+  display: none;
+  max-width: 582px;
+  padding: 30px;
+  margin: 0 0 0 auto;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: var(--bg);
+  z-index: 9999;
+  border: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.cookie__container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.cookie__info {
+  display: flex;
+  min-width: 300px;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+}
+.cookie__info p {
+  color: var(--text-gray);
+}
+.cookie__info a {
+  color: var(--text-gray);
+  text-decoration: underline;
+}
+.cookie__button {
+  width: max-content;
+  padding: 16px 50px;
+  white-space: nowrap;
+  color: var(--bg);
+  background: var(--text);
+  transition: background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+}
+.cookie__button:hover {
+  background: var(--bg-gray);
+  color: var(--text);
+}
+/* end cookie */
+
 /* start footer */
 .footer {
   margin: auto 0 0;
@@ -2317,6 +2486,15 @@ section {
 .footer__uo,
 .footer__name {
   color: var(--text-dgray);
+}
+.footer__desc {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.footer__desc svg {
+  width: 17px;
+  height: 14px;
 }
 .footer__information {
   display: flex;
@@ -2413,9 +2591,6 @@ section {
   .work__block {
     gap: 50px;
   }
-  .work__image {
-    max-width: 430px;
-  }
 
   .specialist__top {
     gap: 30px;
@@ -2500,6 +2675,11 @@ section {
 
   .faq__flex {
     gap: 30px;
+  }
+
+  #cookieConsent {
+    max-width: 428px;
+    padding: 20px;
   }
 
   .footer__list,
@@ -2704,6 +2884,7 @@ section {
   }
 
   .work__block {
+    padding: 60px 0;
     gap: 40px;
   }
   .work__flex {
@@ -2715,6 +2896,10 @@ section {
     width: 100%;
   }
 
+  .tech__block {
+    padding: 60px 0;
+    gap: 40px;
+  }
   .tech__link {
     padding: 20px 0;
     flex-wrap: wrap;
@@ -2764,6 +2949,9 @@ section {
   .contract__block {
     gap: 40px;
   }
+  .contract__left {
+    width: 100%;
+  }
   .contract__list {
     gap: 10px;
   }
@@ -2781,6 +2969,13 @@ section {
   }
   .docs__list {
     padding: 50px 0 0;
+  }
+  .docs__popup {
+    width: calc(100% - 40px);
+    padding: 20px 0;
+  }
+  .docs__popup_close {
+    right: 0;
   }
 
   .build__left,
@@ -2891,7 +3086,7 @@ section {
   }
   .about__buttons,
   .about__info,
-  .about__middle {
+  .about__title {
     width: 100%;
   }
   .about__middle {
@@ -2909,11 +3104,11 @@ section {
   }
 
   .about_process__block {
-    padding: 60px 0;
+    padding: 60px 0 30px;
   }
   .about_process__flex {
     width: 100%;
-    padding: 0 0 40px;
+    padding: 0 0 20px;
     gap: 30px;
   }
   .about_process__list {
@@ -2948,6 +3143,16 @@ section {
   .faq__description {
     max-width: 576px;
     padding: 20px 0 0;
+  }
+
+  #cookieConsent {
+    width: 100%;
+    max-width: 100%;
+    padding: 30px 20px;
+    margin: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 
   .footer__top {
@@ -3054,7 +3259,7 @@ section {
   }
 
   .work__block {
-    padding: 60px 0;
+    padding: 40px 0;
   }
   .work__top {
     gap: 30px;
@@ -3062,12 +3267,10 @@ section {
   .work__flex {
     gap: 50px;
   }
-  .work__image {
-    max-width: 280px;
-  }
 
   .tech__block {
-    padding: 60px 0;
+    padding: 40px 0;
+    gap: 30px;
   }
   .tech__top {
     gap: 30px;
@@ -3082,7 +3285,7 @@ section {
   }
 
   .specialist__block {
-    padding: 60px 0;
+    padding: 60px 0 30px;
   }
   .specialist__flex {
     gap: 40px;
@@ -3095,7 +3298,7 @@ section {
   }
 
   .contract__block {
-    padding: 60px 0;
+    padding: 30px 0 60px;
     gap: 30px;
   }
   .contract__list {
@@ -3116,10 +3319,13 @@ section {
   }
 
   .build__block {
-    padding: 60px 0;
+    padding: 60px 0 30px;
   }
   .build__flex {
     gap: 30px;
+  }
+  .build__top {
+    gap: 20px;
   }
   .build__link {
     padding: 15px;
@@ -3129,7 +3335,7 @@ section {
   }
 
   .docs__block {
-    padding: 60px 0;
+    padding: 30px 0 60px;
   }
   .docs__flex {
     gap: 30px;
@@ -3280,6 +3486,10 @@ section {
     height: 20px;
   }
 
+  #cookieConsent {
+    padding: 15px;
+  }
+
   .footer__top {
     padding: 0 0 40px;
   }
@@ -3323,4 +3533,16 @@ section {
 
 .hidden {
   display: none;
+}
+
+/* Плавное появление снизу вверх (fade-in-up) для текста и изображений */
+/* Без: попапов, модальных окон, шапки, фонов */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.fade-in-up.fade-in-up_visible {
+  opacity: 1;
+  transform: translateY(0);
 }

@@ -179,6 +179,56 @@ navItems.forEach(item => {
   }
 });
 
+// Закрытие попапов при клике на ссылки в хедере
+const headerLinks = document.querySelectorAll('.header__nav_link, .header__subnav_link');
+
+headerLinks.forEach(link => {
+  link.addEventListener('click', function() {
+    // Закрываем docsPopup если он открыт
+    if (docsPopup && docsPopup.classList.contains('active')) {
+      docsPopup.classList.remove('active');
+    }
+    
+    // Закрываем heroPopup если он открыт
+    if (heroPopup && heroPopup.classList.contains('active')) {
+      heroPopup.classList.remove('active');
+    }
+    
+    // Закрываем overlay если он открыт
+    if (overlay && overlay.classList.contains('active')) {
+      overlay.classList.remove('active');
+    }
+    
+    // Закрываем overlayFull если он открыт
+    if (overlayFull && overlayFull.classList.contains('active')) {
+      overlayFull.classList.remove('active');
+    }
+    
+    // Убираем класс noscroll с html элемента
+    document.documentElement.classList.remove('noscroll');
+    
+    // Закрываем мобильное меню если оно открыто
+    if (nav && nav.classList.contains('active')) {
+      nav.classList.remove('active');
+      nav.style.maxHeight = '';
+      
+      if (burger) {
+        burger.classList.remove('active');
+      }
+      
+      // Закрываем все подменю
+      navItems.forEach(item => {
+        const subnav = item.querySelector('.header__subnav');
+        if (subnav) {
+          subnav.classList.remove('active');
+          subnav.style.maxHeight = '';
+          item.classList.remove('active');
+        }
+      });
+    }
+  });
+});
+
 // Закрытие меню при клике на оверлей
 if (overlay) {
   overlay.addEventListener('click', function() {
@@ -695,3 +745,118 @@ if (backButton) {
   console.warn('Кнопка с классом .breadcrumbs__back не найдена');
 }
 // end breadcrumbs__back
+
+// start fade-in-up (текст и изображения; без попапов, модалок, шапки и фонов)
+(function() {
+  var textImageSelectors = 'h1, h2, h3, h4, h5, h6, p, li, figcaption, blockquote, img';
+  var excludeContainers = '.hero__popup, .docs__popup, .overlay, .overlay_full, .header, [class*="__bg"], [class*="background"]';
+
+  function isInsideExcluded(el) {
+    return el.closest(excludeContainers) !== null;
+  }
+
+  var elements = document.querySelectorAll(textImageSelectors);
+  var targets = [];
+  for (var i = 0; i < elements.length; i++) {
+    var el = elements[i];
+    if (!isInsideExcluded(el)) {
+      targets.push(el);
+    }
+  }
+
+  targets.forEach(function(el) {
+    el.classList.add('fade-in-up');
+  });
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in-up_visible');
+      }
+    });
+  }, { rootMargin: '0px 0px -25px 0px', threshold: 0.05 });
+
+  targets.forEach(function(el) {
+    observer.observe(el);
+  });
+})();
+// end fade-in-up
+
+
+// Функции для работы с cookies
+function setCookie(name, value, days) {
+    let expires = '';
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = '; expires=' + date.toUTCString();
+    }
+    document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/; SameSite=Lax';
+}
+
+function getCookie(name) {
+    const nameEQ = name + '=';
+    const cookies = document.cookie.split(';');
+    
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
+        while (cookie.charAt(0) === ' ') {
+            cookie = cookie.substring(1);
+        }
+        if (cookie.indexOf(nameEQ) === 0) {
+            return decodeURIComponent(cookie.substring(nameEQ.length));
+        }
+    }
+    return null;
+}
+
+// Основная функция для показа уведомления
+function showCookieConsent() {
+    // Проверяем, было ли уже дано согласие
+    if (getCookie('cookieConsent') === 'accepted') {
+        return;
+    }
+    
+    const consentElement = document.getElementById('cookieConsent');
+    const acceptButton = document.getElementById('acceptCookies');
+    
+    // Показываем уведомление с задержкой
+    setTimeout(() => {
+        consentElement.style.display = 'block';
+        
+        // Анимация появления
+        setTimeout(() => {
+            consentElement.style.opacity = '1';
+            consentElement.style.transform = 'translateY(0)';
+        }, 10);
+    }, 1000); // 1 секунда после загрузки страницы
+    
+    // Обработчик для кнопки согласия
+    acceptButton.addEventListener('click', function() {
+        // Сохраняем согласие в cookies на 365 дней
+        setCookie('cookieConsent', 'accepted', 365);
+        
+        // Скрываем с анимацией
+        consentElement.style.opacity = '0';
+        consentElement.style.transform = 'translateY(20px)';
+        
+        // Удаляем элемент после анимации
+        setTimeout(() => {
+            consentElement.style.display = 'none';
+        }, 500);
+    });
+}
+
+// Запускаем при полной загрузке страницы
+window.addEventListener('load', showCookieConsent);
+
+// Альтернативный запуск на случай, если load не сработал
+document.addEventListener('DOMContentLoaded', function() {
+    // Если уже загрузилось, то не запускаем повторно
+    if (document.readyState === 'complete') {
+        return;
+    }
+    
+    // Запускаем с небольшим таймаутом
+    setTimeout(showCookieConsent, 1500);
+});

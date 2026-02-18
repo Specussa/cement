@@ -11,11 +11,19 @@ class FormValidator {
     this.fileContainer = this.form.querySelector('.form__file_list');
     this.submitBtn = this.form.querySelector('.hero__submit_button, .footer__submit_button');
     
+    // Добавляем чекбокс политики
+    this.policyCheckbox = this.form.querySelector('.policy__input');
+    this.policyContainer = this.form.querySelector('.form__policy');
+    
     // Массив для хранения файлов
     this.filesToUpload = [];
     
     // Объект для хранения масок
     this.masks = new Map();
+    
+    // URL для отправки формы (замените на ваш реальный URL)
+    this.apiUrlHeader = 'https://cementacia.ru/local/components/anyera/form/ajax.php';
+    this.apiUrlFooter = 'https://cementacia.ru/local/components/anyera/form/ajax.php';
     
     this.init();
   }
@@ -46,9 +54,16 @@ class FormValidator {
       }
     });
 
-    // Инициализация загрузки файлов - не показываем ошибку при загрузке страницы
+    // Инициализация загрузки файлов
     if (this.fileInput) {
       this.fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
+    }
+
+    // Инициализация чекбокса политики
+    if (this.policyCheckbox) {
+      this.policyCheckbox.addEventListener('change', () => {
+        this.validatePolicy();
+      });
     }
 
     // При загрузке страницы убираем error у form__file
@@ -57,7 +72,6 @@ class FormValidator {
       fileControl.classList.remove('error');
       fileControl.classList.remove('success');
       
-      // Очищаем сообщение об ошибке
       const errorElement = fileControl.querySelector('.form__error');
       if (errorElement) {
         errorElement.textContent = '';
@@ -70,54 +84,61 @@ class FormValidator {
   setupIMask(input) {
     const counterMin = input.parentElement.querySelector('.form__counter_min');
     
+    // Проверяем, что IMask доступен
+    if (typeof IMask === 'undefined') {
+      console.warn('IMask не подключен');
+      return;
+    }
+    
     // Очищаем значение перед созданием маски
     input.value = '';
     
-    // Создаем маску
-    const mask = IMask(input, {
-      mask: '+{7} (000) 000-00-00',
-      lazy: false,
-      placeholderChar: '_',
-      
-      onAccept: () => {
-        if (counterMin) counterMin.textContent = input.value.length;
-        this.validateField(input);
-      },
-      
-      onComplete: () => {
-        input.parentElement.classList.add('success');
-      }
-    });
-    
-    // Сохраняем маску для использования в resetForm
-    this.masks.set(input, mask);
-    
-    if (counterMin) counterMin.textContent = input.value.length;
-    
-    input.addEventListener('blur', () => {
-      this.validateField(input);
-      // Обновляем значение маски при уходе с поля
-      mask.updateValue();
-    });
-    
-    input.addEventListener('focus', () => {
-      this.removeError(input);
-      setTimeout(() => {
-        if (input.value === '+7 (___) ___-__-__') {
-          try {
-            input.setSelectionRange(4, 4);
-          } catch (e) {
-            // Игнорируем ошибки setSelectionRange
-          }
+    try {
+      // Создаем маску
+      const mask = IMask(input, {
+        mask: '+{7} (000) 000-00-00',
+        lazy: false,
+        placeholderChar: '_',
+        
+        onAccept: () => {
+          if (counterMin) counterMin.textContent = input.value.length;
+          this.validateField(input);
+        },
+        
+        onComplete: () => {
+          input.parentElement.classList.add('success');
         }
-      }, 0);
-    });
-    
-    // Добавляем обработчик input для обновления счетчика
-    input.addEventListener('input', () => {
+      });
+      
+      // Сохраняем маску
+      this.masks.set(input, mask);
+      
       if (counterMin) counterMin.textContent = input.value.length;
-      mask.updateValue(); // Важно: синхронизируем маску
-    });
+      
+      // Обработчики событий
+      input.addEventListener('blur', () => {
+        this.validateField(input);
+        mask.updateValue();
+      });
+      
+      input.addEventListener('focus', () => {
+        this.removeError(input);
+        setTimeout(() => {
+          if (input.value === '+7 (___) ___-__-__') {
+            try {
+              input.setSelectionRange(4, 4);
+            } catch (e) {}
+          }
+        }, 0);
+      });
+      
+      input.addEventListener('input', () => {
+        if (counterMin) counterMin.textContent = input.value.length;
+        mask.updateValue();
+      });
+    } catch (e) {
+      console.error('Ошибка создания маски:', e);
+    }
   }
 
   // Обработка выбора файлов
@@ -126,7 +147,7 @@ class FormValidator {
     
     if (files.length === 0) return;
     
-    // Очищаем предыдущие файлы (если нужен только один файл)
+    // Очищаем предыдущие файлы
     this.filesToUpload = [];
     
     files.forEach(file => {
@@ -163,7 +184,6 @@ class FormValidator {
       fileControl.classList.remove('error');
       fileControl.classList.add('success');
       
-      // Очищаем сообщение об ошибке
       const errorElement = fileControl.querySelector('.form__error');
       if (errorElement) {
         errorElement.textContent = '';
@@ -221,11 +241,9 @@ class FormValidator {
     this.filesToUpload = this.filesToUpload.filter(file => file.id !== fileId);
     this.displayFiles();
     
-    // После удаления файла проверяем состояние
     const fileControl = this.fileInput.closest('.form__file');
     if (fileControl) {
       if (this.filesToUpload.length === 0) {
-        // Если файлов нет, убираем success, но не добавляем error
         fileControl.classList.remove('success');
       }
     }
@@ -236,13 +254,11 @@ class FormValidator {
     
     const fileControl = this.fileInput.closest('.form__file');
     
-    // При валидации при отправке формы проверяем наличие файлов
     if (this.filesToUpload.length === 0) {
       if (fileControl) {
         fileControl.classList.add('error');
         fileControl.classList.remove('success');
         
-        // Показываем сообщение об ошибке только при попытке отправки
         const errorElement = fileControl.querySelector('.form__error');
         if (errorElement) {
           errorElement.textContent = 'Пожалуйста, загрузите файл';
@@ -258,7 +274,6 @@ class FormValidator {
     const value = input.value.trim();
     const control = input.parentElement;
     
-    // Убираем предыдущие ошибки
     this.removeError(input);
     
     // Проверка обязательности
@@ -273,7 +288,6 @@ class FormValidator {
       if (input.type === 'tel' || input.id.includes('__phone')) {
         const mask = this.masks.get(input);
         if (mask) {
-          // Проверяем, заполнена ли маска полностью
           if (mask.unmaskedValue && mask.unmaskedValue.replace(/\D/g, '').length !== 11) {
             this.showError(input, 'Введите корректный номер телефона');
             return false;
@@ -307,6 +321,19 @@ class FormValidator {
     return true;
   }
 
+  // Валидация чекбокса политики
+  validatePolicy() {
+    if (!this.policyCheckbox || !this.policyContainer) return true;
+    
+    if (!this.policyCheckbox.checked) {
+      this.policyContainer.classList.add('error');
+      return false;
+    } else {
+      this.policyContainer.classList.remove('error');
+      return true;
+    }
+  }
+
   showError(input, message) {
     const control = input.parentElement;
     const errorElement = control ? control.querySelector('.form__error') : null;
@@ -331,11 +358,10 @@ class FormValidator {
     
     if (control) {
       control.classList.remove('error');
-      // Не удаляем success здесь, так как поле может быть уже валидным
     }
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     
     let isValid = true;
@@ -347,48 +373,89 @@ class FormValidator {
       }
     });
     
-    // Валидируем файловое поле (обязательное) только при отправке
+    // Валидируем файловое поле
     if (!this.validateFileField()) {
+      isValid = false;
+    }
+    
+    // Валидируем чекбокс политики
+    if (!this.validatePolicy()) {
       isValid = false;
     }
     
     if (!isValid) {
       // Находим первое поле с ошибкой для фокуса
-      const firstError = this.form.querySelector('.error input, .error .form__file_button');
+      const firstError = this.form.querySelector('.error input, .error .form__file_button, .form__policy.error .policy__checkbox');
       if (firstError) {
         firstError.focus();
       }
       return;
     }
     
-    // Собираем данные
-    const formData = new FormData(this.form);
-    const data = {};
-    
-    // Добавляем текстовые данные
-    this.inputs.forEach(input => {
-      data[input.id] = input.value.trim();
-    });
-    
-    // Добавляем файлы
-    if (this.filesToUpload.length > 0) {
-      this.filesToUpload.forEach(fileData => {
-        formData.append('files[]', fileData.file);
-      });
+    // Отключаем кнопку отправки
+    if (this.submitBtn) {
+      this.submitBtn.disabled = true;
+      this.submitBtn.textContent = 'Отправка...';
     }
     
-    console.log(`Форма ${this.form.id} отправлена:`, data);
-    console.log('Файлы:', this.filesToUpload);
-    
-    // Показываем успешное сообщение
-    this.showSuccessMessage();
-    
-    // Сбрасываем форму
-    this.resetForm();
+    try {
+      // Собираем данные для отправки
+      const formData = new FormData();
+      
+      // Добавляем текстовые данные
+      this.inputs.forEach(input => {
+        formData.append(input.name || input.id, input.value.trim());
+      });
+      
+      // Добавляем статус согласия с политикой
+      if (this.policyCheckbox) {
+        formData.append('policy', this.policyCheckbox.checked ? '1' : '0');
+      }
+      
+      // Добавляем файлы
+      if (this.filesToUpload.length > 0) {
+        this.filesToUpload.forEach(fileData => {
+          formData.append('files', fileData.file, fileData.name);
+        });
+      }
+      
+      // Добавляем информацию о форме
+      formData.append('formId', this.form.id);
+      formData.append('timestamp', new Date().toISOString());
+      
+      // Отправляем запрос на сервер
+      const response = await fetch(this.apiUrlHeader, {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      
+      console.log('Форма успешно отправлена:', result);
+      
+      // Показываем успешное сообщение
+      this.showSuccessMessage();
+      
+      // Сбрасываем форму
+      this.resetForm();
+      
+    } catch (error) {
+      console.error('Ошибка при отправке формы:', error);
+      this.showErrorMessage('Произошла ошибка при отправке формы. Пожалуйста, попробуйте еще раз.');
+    } finally {
+      // Включаем кнопку отправки обратно
+      if (this.submitBtn) {
+        this.submitBtn.disabled = false;
+        this.submitBtn.textContent = this.form.id.includes('hero') ? 'Отправить' : 'Отправить';
+      }
+    }
   }
 
   showSuccessMessage() {
-    // Создаем или находим элемент для сообщения
     let successMsg = this.form.querySelector('.form__success');
     
     if (!successMsg) {
@@ -401,6 +468,7 @@ class FormValidator {
         color: #155724;
         border: 1px solid #c3e6cb;
         border-radius: 5px;
+        text-align: center;
       `;
       successMsg.textContent = 'Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.';
       
@@ -409,10 +477,37 @@ class FormValidator {
       successMsg.style.display = 'block';
     }
     
-    // Автоматически скрываем сообщение через 5 секунд
     setTimeout(() => {
       if (successMsg) {
         successMsg.style.display = 'none';
+      }
+    }, 5000);
+  }
+
+  showErrorMessage(message) {
+    let errorMsg = this.form.querySelector('.form__error_message');
+    
+    if (!errorMsg) {
+      errorMsg = document.createElement('div');
+      errorMsg.className = 'form__error_message';
+      errorMsg.style.cssText = `
+        padding: 15px;
+        margin-top: 20px;
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+        text-align: center;
+      `;
+      this.form.appendChild(errorMsg);
+    }
+    
+    errorMsg.textContent = message;
+    errorMsg.style.display = 'block';
+    
+    setTimeout(() => {
+      if (errorMsg) {
+        errorMsg.style.display = 'none';
       }
     }, 5000);
   }
@@ -426,7 +521,7 @@ class FormValidator {
       if (input.type === 'tel' || input.id.includes('__phone')) {
         const mask = this.masks.get(input);
         if (mask) {
-          mask.updateValue(); // Синхронизируем маску
+          mask.updateValue();
         }
       }
       
@@ -448,17 +543,22 @@ class FormValidator {
       this.fileContainer.innerHTML = '';
     }
     
-    // Сбрасываем состояние файлового поля (без error)
+    // Сбрасываем состояние файлового поля
     const fileControl = this.fileInput ? this.fileInput.closest('.form__file') : null;
     if (fileControl) {
       fileControl.classList.remove('error');
       fileControl.classList.remove('success');
       
-      // Очищаем сообщение об ошибке
       const errorElement = fileControl.querySelector('.form__error');
       if (errorElement) {
         errorElement.textContent = '';
       }
+    }
+    
+    // Сбрасываем чекбокс политики (ставим checked = true по умолчанию)
+    if (this.policyCheckbox) {
+      this.policyCheckbox.checked = true;
+      this.policyContainer.classList.remove('error');
     }
   }
 }
